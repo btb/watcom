@@ -47,17 +47,17 @@ extern "C" {
 
 /* maximum representable floating point number */
 #define FLT_MAX 	3.402823466e+38f
-#define DBL_MAX 	1.79769313486231560e+308
+#define DBL_MAX		1.79769313486231500e+308
 #define LDBL_MAX	DBL_MAX
 
 /* minimum positive floating point number x such that 1.0 + x != 1.0 */
 #define FLT_EPSILON	1.192092896e-7f
-#define DBL_EPSILON	2.2204460492503131e-16
+#define DBL_EPSILON	2.22044604925031300e-016
 #define LDBL_EPSILON	DBL_EPSILON
 
 /* minimum representable positive floating point number */
 #define FLT_MIN 	1.175494351e-38f
-#define DBL_MIN 	2.22507385850720160e-308
+#define DBL_MIN		2.22507385850720200e-308
 #define LDBL_MIN	DBL_MIN
 
 
@@ -116,10 +116,10 @@ extern "C" {
 #define FPE_IOVERFLOW		0x8d /* issued on fist(p) when value is too
 				        large to be represented as integer */
 
-unsigned _clear87(void);
-unsigned _control87(unsigned,unsigned);
-void	 _fpreset(void);
-unsigned _status87(void);
+extern unsigned _clear87(void);
+extern unsigned _control87(unsigned,unsigned);
+extern void	_fpreset(void);
+extern unsigned _status87(void);
 #endif
 
 #define _FLOAT_H_INCLUDED

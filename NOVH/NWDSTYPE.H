@@ -50,7 +50,7 @@ extern "C" {
 #  elif NWNLM					/* remain the same as CLib headers... */
 #    define NULL 0
 #  else							/* all others than defined above... */
-#    define  NULL 0L
+#    define  NULL 0
 #  endif
 #endif
 

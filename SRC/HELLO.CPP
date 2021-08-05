@@ -1,5 +1,4 @@
 #include <iostream.h>
-#include <iomanip.h>
 
 void main( void )
 {

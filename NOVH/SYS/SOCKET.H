@@ -133,6 +133,7 @@ struct sockproto
 /*
  * Message header for recvmsg and sendmsg calls.
  */
+struct iovec;
 struct msghdr 
    {
 	char	   *msg_name;		   /* optional address */
@@ -225,6 +226,7 @@ int   recvmsg(
          struct msghdr *msg,
          int flags );
 
+struct timeval;
 int   select(
          int width,
          fd_set *readfds,

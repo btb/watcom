@@ -96,13 +96,13 @@ struct	_diskinfo_t {		/* disk parameters */
 #define _TIME_SETCLOCK	1	/* set current clock count */
 
 
-unsigned short _bios_disk(unsigned __cmd,struct diskinfo_t *__diskinfo);
-unsigned short _bios_equiplist(void);
-unsigned short _bios_keybrd(unsigned __cmd);
-unsigned short _bios_memsize(void);
-unsigned short _bios_printer(unsigned __cmd,unsigned __port,unsigned __data);
-unsigned short _bios_serialcom(unsigned __cmd,unsigned __port,unsigned __data);
-unsigned short _bios_timeofday(unsigned __cmd,long *__timeval);
+extern unsigned short _bios_disk(unsigned __cmd,struct diskinfo_t *__diskinfo);
+extern unsigned short _bios_equiplist(void);
+extern unsigned short _bios_keybrd(unsigned __cmd);
+extern unsigned short _bios_memsize(void);
+extern unsigned short _bios_printer(unsigned __cmd,unsigned __port,unsigned __data);
+extern unsigned short _bios_serialcom(unsigned __cmd,unsigned __port,unsigned __data);
+extern unsigned short _bios_timeofday(unsigned __cmd,long *__timeval);
 
 
 #ifdef	__INLINE_FUNCTIONS__

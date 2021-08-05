@@ -9,6 +9,10 @@
 #error streambu.h is for use with C++
 #endif
 
+#ifndef _IOSTREAM_H_INCLUDED
+#error streambu.h should only be included by iostream.h
+#endif
+
 #include <stddef.h>
 #include <string.h>
 

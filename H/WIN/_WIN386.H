@@ -57,6 +57,7 @@ typedef void __far *REALFARPROC;
 #define SetResourceHandler 		_Cover_SetResourceHandler
 #define SetTimer 			_Cover_SetTimer
 #define SetWindowsHook 			_Cover_SetWindowsHook
+#define SetWindowsHookEx		_Cover_SetWindowsHookEx
 #define SetWindowLong 			_Cover_SetWindowLong
 #define SetClassLong 			_Cover_SetClassLong
 #define UnhookWindowsHook 		_Cover_UnhookWindowsHook
@@ -341,6 +342,9 @@ FARPROC API _16SetWindowsHook(int, FARPROC);
 FARPROC API _Cover_SetWindowsHook(int, FARPROC);
 BOOL	API _16UnhookWindowsHook(int, FARPROC);
 BOOL	API _Cover_UnhookWindowsHook(int, FARPROC);
+#if (WINVER >= 0x030a)
+HHOOK   API _Cover_SetWindowsHookEx(int idHook, HOOKPROC lpfn, HINSTANCE hInstance, HTASK hTask);
+#endif  /* WINVER >= 0x030a */
 #endif
 HBITMAP API _16LoadBitmap(HANDLE, LPSTR);
 HCURSOR API _16LoadCursor(HANDLE, LPSTR);
@@ -784,7 +788,7 @@ typedef void * HINDIR;
 #define AllocAlias16( a ) ((DWORD)(LPSTR)(a))
 #define FreeAlias16( a )
 #define AllocHugeAlias16( a, b ) ((DWORD)(LPSTR)(a))
-#define FreeHugeAlias16( a,  )
+#define FreeHugeAlias16( a,b )
 #define MK_LOCAL32( a ) ((void far *) a)
 #define MK_FP32( a ) (a)
 #define MK_FP16( a ) (a)

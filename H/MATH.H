@@ -15,28 +15,28 @@ extern	const double __near _HugeValue;
 #endif
 #define HUGE_VAL	_HugeValue
 
-double	acos( double __x );
-double	asin( double __x );
-double	atan( double __x );
-double	atan2( double __y, double __x );
-double	ceil( double __x );
-double	cos( double __x );
-double	cosh( double __x );
-double	exp( double __x );
-double	fabs( double __x );
-double	floor( double __x );
-double	fmod( double __x, double __y );
-double	frexp( double __value, int *__exp );
-double	ldexp( double __x, int __exp );
-double	log( double __x );
-double	log10( double __x );
-double	modf( double __value, double *__iptr );
-double	pow( double __x, double __y );
-double	sin( double __x );
-double	sinh( double __x );
-double	sqrt( double __x );
-double	tan( double __x );
-double	tanh( double __x );
+extern double	acos( double __x );
+extern double	asin( double __x );
+extern double	atan( double __x );
+extern double	atan2( double __y, double __x );
+extern double	ceil( double __x );
+extern double	cos( double __x );
+extern double	cosh( double __x );
+extern double	exp( double __x );
+extern double	fabs( double __x );
+extern double	floor( double __x );
+extern double	fmod( double __x, double __y );
+extern double	frexp( double __value, int *__exp );
+extern double	ldexp( double __x, int __exp );
+extern double	log( double __x );
+extern double	log10( double __x );
+extern double	modf( double __value, double *__iptr );
+extern double	pow( double __x, double __y );
+extern double	sin( double __x );
+extern double	sinh( double __x );
+extern double	sqrt( double __x );
+extern double	tan( double __x );
+extern double	tanh( double __x );
 
 /* non-ANSI */
 #if !defined(NO_EXT_KEYS) /* extensions enabled */
@@ -52,18 +52,18 @@ struct complex {
 };
 #endif
 
-double	acosh( double __x );
-double	asinh( double __x );
-double	atanh( double __x );
-double	cabs( struct _complex );
-double	hypot( double __x, double __y );
-double	j0( double __x );
-double	j1( double __x );
-double	jn( int __n, double __x );
-double	log2( double __x );
-double	y0( double __x );
-double	y1( double __x );
-double	yn( int __n, double __x );
+extern double	acosh( double __x );
+extern double	asinh( double __x );
+extern double	atanh( double __x );
+extern double	cabs( struct _complex );
+extern double	hypot( double __x, double __y );
+extern double	j0( double __x );
+extern double	j1( double __x );
+extern double	jn( int __n, double __x );
+extern double	log2( double __x );
+extern double	y0( double __x );
+extern double	y1( double __x );
+extern double	yn( int __n, double __x );
 
 /* The following struct is used to record errors detected in the math library.
  * matherr is called with a pointer to this struct for possible error recovery.
@@ -84,8 +84,8 @@ struct	exception {
 #define TLOSS		5	/* total loss of significance */
 #define PLOSS		6	/* partial loss of significance */
 
-int	matherr( struct exception * );
-double	_matherr( struct exception * );
+extern int	matherr( struct exception * );
+extern double	_matherr( struct exception * );
 #endif /* EXTENSIONS */
 
 

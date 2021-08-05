@@ -90,7 +90,7 @@ double	acosh( double __x );
 double	asinh( double __x );
 double	atanh( double __x );
 double    cabs(
-            struct complex);
+            struct _complex);
 double    hypot(
             double __x,
             double __y );

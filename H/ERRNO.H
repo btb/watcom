@@ -8,9 +8,11 @@
 extern "C" {
 #endif
 
-#define errno (*__get_errno_ptr())
-
+#ifndef errno
+    #define errno (*__get_errno_ptr())
+#endif
 extern volatile int errno;
+
 /*
  * Error codes
  */

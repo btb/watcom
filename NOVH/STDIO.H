@@ -15,13 +15,7 @@ extern "C" {
  typedef unsigned size_t;
 #endif
 
-#ifndef NULL
- #if defined(__SMALL__) || defined(__MEDIUM__) || defined(__386__)
-  #define NULL   0
- #else
-  #define NULL   0L
- #endif
-#endif
+#define NULL   0
 
 #ifndef __VALIST
  #ifdef  __HUGE__
@@ -163,7 +157,6 @@ int	 vsprintf( char *__s, const char *__format, __va_list __arg );
 #define clearerr(fp)	((fp)->_flag &= ~(_SFERR|_EOF))
 #define feof(fp)	((fp)->_flag & _EOF)
 #define ferror(fp)	((fp)->_flag & _SFERR)
-#define fileno(fp)	((fp)->_handle)
 #define getc(fp) \
 	((fp)->_cnt<=0 \
 	|| !((fp)->_flag&_BINARY) \

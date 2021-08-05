@@ -90,55 +90,55 @@ struct diskfree_t {
 #define _diskfree_t diskfree_t
 
 
-int      bdos(int __dosfn, unsigned int __dx, unsigned int __al);
-void     _chain_intr(register void (__interrupt __far *__handler)());
+extern int      bdos(int __dosfn, unsigned int __dx, unsigned int __al);
+extern void     _chain_intr(register void (__interrupt __far *__handler)());
 #if defined( __OS2__ ) && defined( __386__ )
-unsigned _dos_allocmem( unsigned __size, void **__storage );
+extern unsigned _dos_allocmem( unsigned __size, void **__storage );
 #else
-unsigned _dos_allocmem( unsigned __size, unsigned short *__seg );
+extern unsigned _dos_allocmem( unsigned __size, unsigned short *__seg );
 #endif
-unsigned _dos_close( int __handle );
-unsigned _dos_creat( const char *__path, unsigned __attr, int *__handle );
-unsigned _dos_creatnew( const char *__path, unsigned __attr, int *__handle );
-unsigned _dos_findfirst(const char *__path,unsigned __attr,struct find_t *__buf );
-unsigned _dos_findnext( struct find_t *__buf );
-unsigned _dos_findclose( struct find_t *__buf );
+extern unsigned _dos_close( int __handle );
+extern unsigned _dos_creat( const char *__path, unsigned __attr, int *__handle );
+extern unsigned _dos_creatnew( const char *__path, unsigned __attr, int *__handle );
+extern unsigned _dos_findfirst(const char *__path,unsigned __attr,struct find_t *__buf );
+extern unsigned _dos_findnext( struct find_t *__buf );
+extern unsigned _dos_findclose( struct find_t *__buf );
 #if defined( __OS2__ ) && defined( __386__ )
-unsigned _dos_freemem( void *__storage );
+extern unsigned _dos_freemem( void *__storage );
 #else
-unsigned _dos_freemem( unsigned short __seg );
+extern unsigned _dos_freemem( unsigned short __seg );
 #endif
-void     _dos_getdate( struct dosdate_t *__date );
-unsigned _dos_getdiskfree( unsigned __drive, struct diskfree_t *__diskspace);
-void     _dos_getdrive( unsigned *__drive );
-unsigned _dos_getfileattr( const char *__path, unsigned *__attr );
-unsigned _dos_getftime( int __handle, unsigned short *__date,
+extern void     _dos_getdate( struct dosdate_t *__date );
+extern unsigned _dos_getdiskfree( unsigned __drive, struct diskfree_t *__diskspace);
+extern void     _dos_getdrive( unsigned *__drive );
+extern unsigned _dos_getfileattr( const char *__path, unsigned *__attr );
+extern unsigned _dos_getftime( int __handle, unsigned short *__date,
                         unsigned short *__time );
-void     _dos_gettime( struct dostime_t *__time );
-void     (__interrupt __far *_dos_getvect(int __intnum))();
-void     _dos_keep(unsigned __retcode,unsigned __memsize);
+extern void     _dos_gettime( struct dostime_t *__time );
+extern void     (__interrupt __far *_dos_getvect(int __intnum))();
+extern void     _dos_keep(unsigned __retcode,unsigned __memsize);
 
-unsigned _dos_open( const char *__path, unsigned __mode, int *__handle );
-unsigned _dos_read( int __handle, void __far *__buf, unsigned __count,
+extern unsigned _dos_open( const char *__path, unsigned __mode, int *__handle );
+extern unsigned _dos_read( int __handle, void __far *__buf, unsigned __count,
                     unsigned *__bytes );
-unsigned _dos_setblock( unsigned __size, unsigned short __seg,
+extern unsigned _dos_setblock( unsigned __size, unsigned short __seg,
                         unsigned  *__maxsize );
-unsigned _dos_setdate( struct dosdate_t *__date );
-void     _dos_setdrive( unsigned __drivenum, unsigned *__drives );
-unsigned _dos_setfileattr( const char *__path, unsigned __attr );
-unsigned _dos_setftime(int __handle,unsigned short __date,unsigned short __time);
-unsigned _dos_settime( struct dostime_t *__time );
-void     _dos_setvect(int __intnum,void (__interrupt __far *__handler)());
-unsigned _dos_write( int __handle, void __far *__buf, unsigned __count,
+extern unsigned _dos_setdate( struct dosdate_t *__date );
+extern void     _dos_setdrive( unsigned __drivenum, unsigned *__drives );
+extern unsigned _dos_setfileattr( const char *__path, unsigned __attr );
+extern unsigned _dos_setftime(int __handle,unsigned short __date,unsigned short __time);
+extern unsigned _dos_settime( struct dostime_t *__time );
+extern void     _dos_setvect(int __intnum,void (__interrupt __far *__handler)());
+extern unsigned _dos_write( int __handle, void __far *__buf, unsigned __count,
                     unsigned *__bytes );
-int      dosexterr(struct _DOSERROR *);
-void     _harderr(register int (__far *__func)(unsigned __deverr,
+extern int      dosexterr(struct _DOSERROR *);
+extern void     _harderr(register int (__far *__func)(unsigned __deverr,
                         unsigned __errcode,unsigned __far *__devhdr));
-void     _hardresume(int __result);
-void     _hardretn(int __error);
-int      intdos(union REGS *, union REGS *);
-int      intdosx(union REGS *, union REGS *, struct SREGS *);
-void     sleep(unsigned __seconds);
+extern void     _hardresume(int __result);
+extern void     _hardretn(int __error);
+extern int      intdos(union REGS *, union REGS *);
+extern int      intdosx(union REGS *, union REGS *, struct SREGS *);
+extern void     sleep(unsigned __seconds);
 
 #pragma pack();
 #define _DOS_H_INCLUDED

@@ -41,13 +41,13 @@ typedef struct dirent {
 #define _A_ARCH 	0x20	/* Archive file */
 
 
-int	chdir( const char *__path );
-int	closedir( DIR * );
-char   *getcwd( char *__buf, unsigned __size );
-int	mkdir( const char *__path );
-DIR	*opendir( const char * );
-struct dirent *readdir( DIR * );
-int	rmdir( const char *__path );
+extern int	chdir( const char *__path );
+extern int	closedir( DIR * );
+extern char	*getcwd( char *__buf, unsigned __size );
+extern int	mkdir( const char *__path );
+extern DIR	*opendir( const char * );
+extern struct dirent *readdir( DIR * );
+extern int	rmdir( const char *__path );
 
 #pragma pack();
 #define _DIRECT_H_INCLUDED

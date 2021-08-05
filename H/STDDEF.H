@@ -30,12 +30,14 @@ typedef unsigned short wchar_t;
  #endif
 #endif
 
-#if defined(__HUGE__)
- typedef long	ptrdiff_t;
-#else
- typedef int	ptrdiff_t;
+#ifndef _PTRDIFF_T_DEFINED_
+#define _PTRDIFF_T_DEFINED_
+ #if defined(__HUGE__)
+  typedef long	ptrdiff_t;
+ #else
+  typedef int	ptrdiff_t;
+ #endif
 #endif
-
 
 #ifdef __cplusplus
 #define offsetof __offsetof

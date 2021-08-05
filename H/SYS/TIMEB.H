@@ -21,7 +21,7 @@ struct timeb {
 };
 #pragma pack();
 
-int ftime( struct timeb *__timeptr );
+extern int ftime( struct timeb *__timeptr );
 
 #define __TIMEB_H_INCLUDED
 #ifdef __cplusplus

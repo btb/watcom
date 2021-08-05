@@ -22,28 +22,32 @@ extern "C" {
  #endif
 #endif
 
-void  *alloca(size_t __size);
-void  *_alloca(size_t __size);
+#ifndef alloca
+extern void  *alloca(size_t __size);
+extern void  *__doalloca(size_t __size);
+extern unsigned stackavail( void );
+#pragma aux stackavail modify nomemory;
 
-#define __ALLOCA_ALIGN( s )	 (((s)+(sizeof(int)-1))&~(sizeof(int)-1))
+#define __ALLOCA_ALIGN( s )	(((s)+(sizeof(int)-1))&~(sizeof(int)-1))
+#define __alloca( s )		__doalloca(__ALLOCA_ALIGN(s))
 
-#define alloca(size) \
-( (__ALLOCA_ALIGN(size) < stackavail()) ? _alloca(__ALLOCA_ALIGN(size)) : NULL)
+#define alloca( s ) 	((__ALLOCA_ALIGN(s)<stackavail())?__alloca(s):NULL)
 
 #if defined(__386__)
-#pragma aux	_alloca = 0x29 0xc4 /* sub esp,eax */\
-			  0x89 0xe0 /* mov eax,esp */\
-			parm caller [eax] value [eax] modify nomemory [esp];
+#pragma aux     __doalloca =				\
+	    "sub esp,eax"				\
+	    parm nomemory [eax] value [esp] modify exact nomemory [esp];
 #elif defined(__SMALL__) || defined(__MEDIUM__) /* small data models */
-#pragma aux	_alloca = 0x29 0xc4 /* sub sp,ax */\
-			  0x89 0xe0 /* mov ax,sp */\
-			parm caller [ax] value [ax] modify nomemory [sp];
+#pragma aux	__doalloca = 	\
+	    "sub sp,ax"		\
+	    parm nomemory [ax] value [sp] modify exact nomemory [sp];
 #else						/* large data models */
-#pragma aux	_alloca = 0x29 0xc4 /* sub sp,ax */\
-			  0x89 0xe0 /* mov ax,sp */\
-		 	  0x8c 0xd2 /* mov dx,ss */\
-			parm caller [ax] value [ax dx] modify nomemory [sp];
-
+#pragma aux	__doalloca = 	\
+	    "sub sp,ax"		\
+	    "mov ax,sp"		\
+	    "mov dx,ss"		\
+	    parm nomemory [ax] value [dx ax] modify exact nomemory [dx ax sp];
+#endif
 #endif
 
 #define _HEAPOK 	0
@@ -62,53 +66,52 @@ typedef struct _heapinfo {
     int 		_useflag;	/* heap entry 'in-use' flag */
 } _HEAPINFO;
 
-int _heapchk( void );
-int _nheapchk( void );
-int _fheapchk( void );
-int _heapset( unsigned int __fill );
-int _nheapset( unsigned int __fill );
-int _fheapset( unsigned int __fill );
-int _heapwalk( struct _heapinfo *__entry );
-int _nheapwalk( struct _heapinfo *__entry );
-int _fheapwalk( struct _heapinfo *__entry );
+extern int _heapenable( int __enabled );
+extern int _heapchk( void );
+extern int _nheapchk( void );
+extern int _fheapchk( void );
+extern int _heapset( unsigned int __fill );
+extern int _nheapset( unsigned int __fill );
+extern int _fheapset( unsigned int __fill );
+extern int _heapwalk( struct _heapinfo *__entry );
+extern int _nheapwalk( struct _heapinfo *__entry );
+extern int _fheapwalk( struct _heapinfo *__entry );
 
-void _heapgrow( void );
-void _nheapgrow( void );
-void _fheapgrow( void );
-int _heapmin( void );
-int _nheapmin( void );
-int _fheapmin( void );
-int _heapshrink( void );
-int _nheapshrink( void );
-int _fheapshrink( void );
+extern void _heapgrow( void );
+extern void _nheapgrow( void );
+extern void _fheapgrow( void );
+extern int _heapmin( void );
+extern int _nheapmin( void );
+extern int _fheapmin( void );
+extern int _heapshrink( void );
+extern int _nheapshrink( void );
+extern int _fheapshrink( void );
 
-int __nmemneed( size_t );
-int __fmemneed( size_t );
-void __far  *_fcalloc( size_t __n,size_t __size );
-void __near *_ncalloc( size_t __n,size_t __size );
-void *_expand( void *__ptr,size_t __size );
-void __far  *_fexpand( void __far *__ptr,size_t __size );
-void __near *_nexpand( void __near *__ptr,size_t __size );
-void _ffree( void __far *__ptr );
-void __far *_fmalloc( size_t __size );
-unsigned int _freect( size_t __size );
-void __huge *halloc( long __n,size_t __size );
-void hfree( void __huge * );
-void _nfree( void __near *__ptr );
-void __near *_nmalloc( size_t __size );
-void __near *_nrealloc( void __near *__ptr,size_t __size );
-void __far  *_frealloc( void __far *__ptr,size_t __size );
-size_t _msize( void *__ptr );
-size_t _nmsize( void __near *__ptr );
-size_t _fmsize( void __far *__ptr );
-size_t _memavl( void );
-size_t _memmax( void );
-unsigned stackavail( void );
-#pragma aux stackavail modify nomemory;
-void *calloc( size_t __n,size_t __size );
-void free( void *__ptr );
-void *malloc( size_t __size );
-void *realloc( void *__ptr,size_t __size );
+extern int __nmemneed( size_t );
+extern int __fmemneed( size_t );
+extern void __far  *_fcalloc( size_t __n,size_t __size );
+extern void __near *_ncalloc( size_t __n,size_t __size );
+extern void *_expand( void *__ptr,size_t __size );
+extern void __far  *_fexpand( void __far *__ptr,size_t __size );
+extern void __near *_nexpand( void __near *__ptr,size_t __size );
+extern void _ffree( void __far *__ptr );
+extern void __far *_fmalloc( size_t __size );
+extern unsigned int _freect( size_t __size );
+extern void __huge *halloc( long __n,size_t __size );
+extern void hfree( void __huge * );
+extern void _nfree( void __near *__ptr );
+extern void __near *_nmalloc( size_t __size );
+extern void __near *_nrealloc( void __near *__ptr,size_t __size );
+extern void __far  *_frealloc( void __far *__ptr,size_t __size );
+extern size_t _msize( void *__ptr );
+extern size_t _nmsize( void __near *__ptr );
+extern size_t _fmsize( void __far *__ptr );
+extern size_t _memavl( void );
+extern size_t _memmax( void );
+extern void *calloc( size_t __n,size_t __size );
+extern void free( void *__ptr );
+extern void *malloc( size_t __size );
+extern void *realloc( void *__ptr,size_t __size );
 
 #if __WATCOMC__ >= 900
 
@@ -117,19 +120,19 @@ void *realloc( void *__ptr,size_t __size );
 #define	_NULLSEG	((__segment)0)
 #define	_NULLOFF	((void __based(void) *)~0)
 
-int _bfreeseg(__segment __seg);
-__segment _bheapseg(size_t size);
-void __based(void) *_bcalloc(__segment __seg,size_t __num,size_t __size);
-void __based(void) *_bexpand(__segment __seg,void __based(void) *__mem,
+extern int _bfreeseg(__segment __seg);
+extern __segment _bheapseg(size_t size);
+extern void __based(void) *_bcalloc(__segment __seg,size_t __num,size_t __size);
+extern void __based(void) *_bexpand(__segment __seg,void __based(void) *__mem,
 				size_t __size);
-void _bfree(__segment __seg,void __based(void) *__mem);
-int _bheapchk(__segment __seg);
-int _bheapmin(__segment __seg);
-int _bheapset(__segment __seg,unsigned int __fill);
-int _bheapwalk(__segment __seg,struct _heapinfo *__entry);
-void __based(void) *_bmalloc(__segment __seg,size_t __size);
-size_t _bmsize(__segment __seg,void __based(void) *__mem);
-void __based(void) *_brealloc(__segment __seg,void __based(void) *__mem,
+extern void _bfree(__segment __seg,void __based(void) *__mem);
+extern int _bheapchk(__segment __seg);
+extern int _bheapmin(__segment __seg);
+extern int _bheapset(__segment __seg,unsigned int __fill);
+extern int _bheapwalk(__segment __seg,struct _heapinfo *__entry);
+extern void __based(void) *_bmalloc(__segment __seg,size_t __size);
+extern size_t _bmsize(__segment __seg,void __based(void) *__mem);
+extern void __based(void) *_brealloc(__segment __seg,void __based(void) *__mem,
 				size_t __size);
 #endif
 #pragma pack();

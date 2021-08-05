@@ -144,6 +144,7 @@ typedef struct T_StackFrame
    LONG  EFLAGS;
    } T_StackFrame;
 
+struct ProcessorStructure;
 typedef  struct T_TSS_StackFrame
 {
 /* 00 */LONG ExceptionReserved[7];
@@ -212,6 +213,7 @@ typedef  struct T_Ext_StackFrame
 /* The preferred frame for 4.0 is the TSS frame, the others are provided  */
 /* for backwards compatibility.*/
 
+struct ResourceTagStructure;
 struct debuggerStructure
 {
    struct debuggerStructure *DDSlink;

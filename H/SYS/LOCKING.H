@@ -14,7 +14,7 @@ extern "C" {
 #define LK_RLCK     3	/* lock for writing */
 #define LK_NBRLCK   4	/* non-blocking lock for writing */
 
-int locking(int __handle,int __mode,unsigned long __nbyte);
+extern int locking(int __handle,int __mode,unsigned long __nbyte);
 
 #define __LOCKING_H_INCLUDED
 #ifdef __cplusplus

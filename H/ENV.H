@@ -11,11 +11,11 @@ extern "C" {
 /*
  *  POSIX 1003.1 Prototypes.
  */
- int	clearenv( void );
- char  *getenv( const char *__name );
- int	setenv( const char *__name, const char *__newvalue, int __overwrite );
+extern int clearenv( void );
+extern char *getenv( const char *__name );
+extern int setenv( const char *__name, const char *__newvalue, int __overwrite );
 #if !defined(NO_EXT_KEYS) /* extensions enabled */
- int	putenv( const char *__env_string );
+extern int putenv( const char *__env_string );
 #endif
 
 #define _ENV_H_INCLUDED

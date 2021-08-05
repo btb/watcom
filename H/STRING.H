@@ -21,74 +21,74 @@ extern "C" {
  #endif
 #endif
 
-void *memchr( const void *__s, int __c, size_t __n );
-int   memcmp( const void *__s1, const void *__s2, size_t __n );
-void *memcpy( void *__s1, const void *__s2, size_t __n );
-void *memmove( void *__s1, const void *__s2, size_t __n );
-void *memset( void *__s, int __c, size_t __n );
-char *strcat( char *__s1, const char *__s2 );
-char *strchr( const char *__s, int __c );
-int strcmp( const char *__s1, const char *__s2 );
-int strcoll( const char *__s1, const char *__s2 );
-size_t strxfrm( char *__s1, const char *__s2, size_t __n );
-char *strcpy( char *__s1, const char *__s2 );
-size_t strcspn( const char *__s1, const char *__s2 );
-char *strerror( int __errnum );
-size_t strlen( const char *__s );
-char *strncat( char *__s1, const char *__s2, size_t __n );
-int strncmp( const char *__s1, const char *__s2, size_t __n );
-char *strncpy( char *__s1, const char *__s2, size_t __n );
-char *strpbrk( const char *__s1, const char *__s2 );
-char *strrchr( const char *__s, int __c );
-size_t strspn( const char *__s1, const char *__s2 );
-char *strstr( const char *__s1, const char *__s2 );
-char *strtok( char *__s1, const char *__s2 );
+extern void *memchr( const void *__s, int __c, size_t __n );
+extern int   memcmp( const void *__s1, const void *__s2, size_t __n );
+extern void *memcpy( void *__s1, const void *__s2, size_t __n );
+extern void *memmove( void *__s1, const void *__s2, size_t __n );
+extern void *memset( void *__s, int __c, size_t __n );
+extern char *strcat( char *__s1, const char *__s2 );
+extern char *strchr( const char *__s, int __c );
+extern int strcmp( const char *__s1, const char *__s2 );
+extern int strcoll( const char *__s1, const char *__s2 );
+extern size_t strxfrm( char *__s1, const char *__s2, size_t __n );
+extern char *strcpy( char *__s1, const char *__s2 );
+extern size_t strcspn( const char *__s1, const char *__s2 );
+extern char *strerror( int __errnum );
+extern size_t strlen( const char *__s );
+extern char *strncat( char *__s1, const char *__s2, size_t __n );
+extern int strncmp( const char *__s1, const char *__s2, size_t __n );
+extern char *strncpy( char *__s1, const char *__s2, size_t __n );
+extern char *strpbrk( const char *__s1, const char *__s2 );
+extern char *strrchr( const char *__s, int __c );
+extern size_t strspn( const char *__s1, const char *__s2 );
+extern char *strstr( const char *__s1, const char *__s2 );
+extern char *strtok( char *__s1, const char *__s2 );
 
 #if !defined(NO_EXT_KEYS) /* extensions enabled */
 
 /* WATCOM's Additional Functions (non-ANSI, non-POSIX) */
 
-void __far *_fmemccpy(void __far *__s1,const void __far *__s2,int __c,size_t __n);
-void __far *_fmemchr( const void __far *__s, int __c, size_t __n );
-void __far *_fmemcpy( void __far *__s1, const void __far *__s2, size_t __n );
-void __far *_fmemmove( void __far *__s1, const void __far *__s2, size_t __n );
-void __far *_fmemset( void __far *__s, int __c, size_t __n );
-int  _fmemcmp( const void __far *__s1, const void __far *__s2, size_t __n );
-int  _fmemicmp( const void __far *__s1, const void __far *__s2, size_t __n );
-char __far *_fstrcat( char __far *__s1, const char __far *__s2 );
-char __far *_fstrchr( const char __far *__s, int __c );
-int  _fstrcmp( const char __far *__s1, const char __far *__s2 );
-char __far *_fstrcpy( char __far *__s1, const char __far *__s2 );
-size_t _fstrcspn( const char __far *__s1, const char __far *__s2 );
-int  _fstricmp( const char __far *__s1, const char __far *__s2 );
-char __far *_fstrncat( char __far *__s1, const char __far *__s2, size_t __n );
-size_t _fstrlen( const char __far *__s );
-char __far *_fstrlwr( char __far *__string );
-int  _fstrncmp( const char __far *__s1, const char __far *__s2, size_t __n );
-char __far *_fstrncpy( char __far *__s1, const char __far *__s2, size_t __n );
-int  _fstrnicmp( const char __far *__s1, const char __far *__s2, size_t __n );
-char __far *_fstrnset( char __far *__string, int __c, size_t __len );
-char __far *_fstrpbrk( const char __far *__s1, const char __far *__s2 );
-char __far *_fstrrchr( const char __far *__s, int __c );
-char __far *_fstrrev( char __far *__string );
-char __far *_fstrset( char __far *__string, int __c );
-size_t _fstrspn( const char __far *__s1, const char __far *__s2 );
-char __far *_fstrstr( const char __far *__s1, const char __far *__s2 );
-char __far *_fstrtok( char __far *__s1, const char __far *__s2 );
-char __far *_fstrupr( char __far *__string );
-void movedata( unsigned __srcseg, unsigned __srcoff,
+extern void __far *_fmemccpy(void __far *__s1,const void __far *__s2,int __c,size_t __n);
+extern void __far *_fmemchr( const void __far *__s, int __c, size_t __n );
+extern void __far *_fmemcpy( void __far *__s1, const void __far *__s2, size_t __n );
+extern void __far *_fmemmove( void __far *__s1, const void __far *__s2, size_t __n );
+extern void __far *_fmemset( void __far *__s, int __c, size_t __n );
+extern int  _fmemcmp( const void __far *__s1, const void __far *__s2, size_t __n );
+extern int  _fmemicmp( const void __far *__s1, const void __far *__s2, size_t __n );
+extern char __far *_fstrcat( char __far *__s1, const char __far *__s2 );
+extern char __far *_fstrchr( const char __far *__s, int __c );
+extern int  _fstrcmp( const char __far *__s1, const char __far *__s2 );
+extern char __far *_fstrcpy( char __far *__s1, const char __far *__s2 );
+extern size_t _fstrcspn( const char __far *__s1, const char __far *__s2 );
+extern int  _fstricmp( const char __far *__s1, const char __far *__s2 );
+extern char __far *_fstrncat( char __far *__s1, const char __far *__s2, size_t __n );
+extern size_t _fstrlen( const char __far *__s );
+extern char __far *_fstrlwr( char __far *__string );
+extern int  _fstrncmp( const char __far *__s1, const char __far *__s2, size_t __n );
+extern char __far *_fstrncpy( char __far *__s1, const char __far *__s2, size_t __n );
+extern int  _fstrnicmp( const char __far *__s1, const char __far *__s2, size_t __n );
+extern char __far *_fstrnset( char __far *__string, int __c, size_t __len );
+extern char __far *_fstrpbrk( const char __far *__s1, const char __far *__s2 );
+extern char __far *_fstrrchr( const char __far *__s, int __c );
+extern char __far *_fstrrev( char __far *__string );
+extern char __far *_fstrset( char __far *__string, int __c );
+extern size_t _fstrspn( const char __far *__s1, const char __far *__s2 );
+extern char __far *_fstrstr( const char __far *__s1, const char __far *__s2 );
+extern char __far *_fstrtok( char __far *__s1, const char __far *__s2 );
+extern char __far *_fstrupr( char __far *__string );
+extern void movedata( unsigned __srcseg, unsigned __srcoff,
 	       unsigned __tgtseg, unsigned __tgtoff, unsigned __len );
-void *memccpy( void *__s1, const void *__s2, int __c, size_t __n );
-int  memicmp( const void *__s1, const void *__s2, size_t __n );
-int   strcmpi( const char *__s1, const char *__s2 );
-char *strdup( const char *__string );
-int   stricmp( const char *__s1, const char *__s2 );
-char *strlwr( char *__string );
-int   strnicmp( const char *__s1, const char *__s2, size_t __n );
-char *strnset( char *__string, int __c, size_t __len );
-char *strrev( char *__string );
-char *strset( char *__string, int __c );
-char *strupr( char *__string );
+extern void *memccpy( void *__s1, const void *__s2, int __c, size_t __n );
+extern int  memicmp( const void *__s1, const void *__s2, size_t __n );
+extern int   strcmpi( const char *__s1, const char *__s2 );
+extern char *strdup( const char *__string );
+extern int   stricmp( const char *__s1, const char *__s2 );
+extern char *strlwr( char *__string );
+extern int   strnicmp( const char *__s1, const char *__s2, size_t __n );
+extern char *strnset( char *__string, int __c, size_t __len );
+extern char *strrev( char *__string );
+extern char *strset( char *__string, int __c );
+extern char *strupr( char *__string );
 
 #endif	/* EXTENSIONS */
 

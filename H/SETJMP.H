@@ -10,7 +10,7 @@ extern "C" {
 
 typedef unsigned int jmp_buf[13];
 
-int  _setjmp( jmp_buf __env );
+extern int  _setjmp( jmp_buf __env );
 #define setjmp(__env)	  _setjmp(__env)
 #if defined(__386__)
  #pragma aux _setjmp parm caller [eax] modify [8087];
@@ -18,7 +18,7 @@ int  _setjmp( jmp_buf __env );
  #pragma aux _setjmp modify [8087];
 #endif
 
-void longjmp( jmp_buf __env, int __val );
+extern void longjmp( jmp_buf __env, int __val );
 
 #pragma aux	longjmp aborts;
 

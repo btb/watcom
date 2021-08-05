@@ -8,6 +8,7 @@ extern "C" {
 #endif
 #define	_USER_
 
+struct proc;
 struct user {
 	int	u_error;
 	int	u_uid;

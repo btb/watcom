@@ -199,8 +199,11 @@ inline WCIsvListIterBase<Type,FType>::~WCIsvListIterBase() {};
 
 template<class Type, class FType>
 void WCIsvListIterBase<Type,FType>::insert( Type * datum ) {
-    WCSLink * curr_tail = base_tail_hit( this,
-                                       ((WCDLink *)curr_item)->prev.link );
+    WCSLink * prev_item = curr_item;
+    if( prev_item != 0 ) {
+        curr_item = ((WCDLink *)prev_item)->prev.link;
+    }
+    WCSLink * curr_tail = base_tail_hit( this, prev_item );
     ((FType *)curr_list)->insert( datum );
     base_tail_unhit( this, curr_tail );
 };
@@ -283,8 +286,11 @@ Type WCValListIterBase<Type,FType,LType>::current() {
 
 template<class Type, class FType, class LType>
 void WCValListIterBase<Type,FType,LType>::insert( Type& datum ) {
-    WCSLink * curr_tail = base_tail_hit( this,
-                                       ((WCDLink *)curr_item)->prev.link );
+    WCSLink * prev_item = curr_item;
+    if( prev_item != 0 ) {
+        curr_item = ((WCDLink *)prev_item)->prev.link;
+    }
+    WCSLink * curr_tail = base_tail_hit( this, prev_item );
     ((FType *)curr_list)->insert( datum );
     base_tail_unhit( this, curr_tail );
 };

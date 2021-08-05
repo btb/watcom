@@ -24,20 +24,20 @@ struct DWORDREGS {
 	unsigned int edi;
 	unsigned int cflag;
 };
- #define __FILLER unsigned short :16;
+ #define __FILLER(a) unsigned short a;
 #else
- #define __FILLER
+ #define __FILLER(a)
 #endif
 
 /* word registers */
 
 struct WORDREGS {
-	unsigned short ax;  __FILLER
-	unsigned short bx;  __FILLER
-	unsigned short cx;  __FILLER
-	unsigned short dx;  __FILLER
-	unsigned short si;  __FILLER
-	unsigned short di;  __FILLER
+	unsigned short ax;  __FILLER(_1)
+	unsigned short bx;  __FILLER(_2)
+	unsigned short cx;  __FILLER(_3)
+	unsigned short dx;  __FILLER(_4)
+	unsigned short si;  __FILLER(_5)
+	unsigned short di;  __FILLER(_6)
 #if defined(__WINDOWS_386__)
 	unsigned short cflag;
 #else
@@ -48,10 +48,10 @@ struct WORDREGS {
 /* byte registers */
 
 struct BYTEREGS {
-	unsigned char al, ah;  __FILLER
-	unsigned char bl, bh;  __FILLER
-	unsigned char cl, ch;  __FILLER
-	unsigned char dl, dh;  __FILLER
+	unsigned char al, ah;  __FILLER(_1)
+	unsigned char bl, bh;  __FILLER(_2)
+	unsigned char cl, ch;  __FILLER(_3)
+	unsigned char dl, dh;  __FILLER(_4)
 };
 
 /* general purpose registers union - overlays the corresponding dword,
@@ -83,20 +83,20 @@ struct SREGS {
 /* intr structs */
 
 struct REGPACKB {
-	unsigned char al, ah;  __FILLER
-	unsigned char bl, bh;  __FILLER
-	unsigned char cl, ch;  __FILLER
-	unsigned char dl, dh;  __FILLER
+	unsigned char al, ah;  __FILLER(_1)
+	unsigned char bl, bh;  __FILLER(_2)
+	unsigned char cl, ch;  __FILLER(_3)
+	unsigned char dl, dh;  __FILLER(_4)
 };
 
 struct REGPACKW {
-	unsigned short ax;  __FILLER
-	unsigned short bx;  __FILLER
-	unsigned short cx;  __FILLER
-	unsigned short dx;  __FILLER
-	unsigned short bp;  __FILLER
-	unsigned short si;  __FILLER
-	unsigned short di;  __FILLER
+	unsigned short ax;  __FILLER(_1)
+	unsigned short bx;  __FILLER(_2)
+	unsigned short cx;  __FILLER(_3)
+	unsigned short dx;  __FILLER(_4)
+	unsigned short bp;  __FILLER(_5)
+	unsigned short si;  __FILLER(_6)
+	unsigned short di;  __FILLER(_7)
 	unsigned short ds;
 	unsigned short es;
 #if defined(__386__) && !defined(__WINDOWS_386__)
@@ -137,20 +137,20 @@ struct INTPACKX {
 	 is invoked with at least the /3 switch.
 */
 struct INTPACKW {
-	unsigned short gs;  __FILLER
-	unsigned short fs;  __FILLER
-	unsigned short es;  __FILLER
-	unsigned short ds;  __FILLER
-	unsigned short di;  __FILLER
-	unsigned short si;  __FILLER
-	unsigned short bp;  __FILLER
-	unsigned short sp;  __FILLER
-	unsigned short bx;  __FILLER
-	unsigned short dx;  __FILLER
-	unsigned short cx;  __FILLER
-	unsigned short ax;  __FILLER
-	unsigned short ip;  __FILLER
-	unsigned short cs;  __FILLER
+	unsigned short gs;  __FILLER(_1)
+	unsigned short fs;  __FILLER(_2)
+	unsigned short es;  __FILLER(_3)
+	unsigned short ds;  __FILLER(_4)
+	unsigned short di;  __FILLER(_5)
+	unsigned short si;  __FILLER(_6)
+	unsigned short bp;  __FILLER(_7)
+	unsigned short sp;  __FILLER(_8)
+	unsigned short bx;  __FILLER(_9)
+	unsigned short dx;  __FILLER(_a)
+	unsigned short cx;  __FILLER(_b)
+	unsigned short ax;  __FILLER(_c)
+	unsigned short ip;  __FILLER(_d)
+	unsigned short cs;  __FILLER(_e)
 	unsigned flags;
 };
 struct INTPACKB {
@@ -165,10 +165,10 @@ struct INTPACKB {
 		 /*di*/:16,/*si*/:16,
 		 /*bp*/:16,/*sp*/:16;
 #endif
-	unsigned char bl, bh; __FILLER
-	unsigned char dl, dh; __FILLER
-	unsigned char cl, ch; __FILLER
-	unsigned char al, ah; __FILLER
+	unsigned char bl, bh; __FILLER(_1)
+	unsigned char dl, dh; __FILLER(_2)
+	unsigned char cl, ch; __FILLER(_3)
+	unsigned char al, ah; __FILLER(_4)
 };
 union  INTPACK {
 	struct INTPACKB h;
@@ -201,18 +201,18 @@ extern	void _enable( void );
  #pragma intrinsic(_disable,_enable)
 #endif
 
-void	delay(unsigned int __milliseconds);
+extern void	delay(unsigned int __milliseconds);
 #if defined(__386__) && !defined(__WINDOWS_386__)
-int	int386( int, union REGS *, union REGS * );
-int	int386x( int, union REGS *, union REGS *, struct SREGS * );
+extern int	int386( int, union REGS *, union REGS * );
+extern int	int386x( int, union REGS *, union REGS *, struct SREGS * );
 #else
-int	int86( int, union REGS *, union REGS * );
-int	int86x( int, union REGS *, union REGS *, struct SREGS * );
+extern int	int86( int, union REGS *, union REGS * );
+extern int	int86x( int, union REGS *, union REGS *, struct SREGS * );
 #endif
-void	intr( int, union REGPACK * );
-void	nosound( void );
-void	segread( struct SREGS * );
-void	sound( unsigned __frequency );
+extern void	intr( int, union REGPACK * );
+extern void	nosound( void );
+extern void	segread( struct SREGS * );
+extern void	sound( unsigned __frequency );
 
 /* macros to break 'far' pointers into segment and offset components */
 

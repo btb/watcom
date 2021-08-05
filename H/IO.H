@@ -34,27 +34,27 @@ extern "C" {
 #define STDPRN_FILENO   4
 #endif
 
-int  access(const char *__path,int __mode);
-int  chmod(const char *__path,int __pmode);
-int  chsize(int __handle,long __size);
-int  close(int __handle);
-int  creat(const char *__path,int __pmode);
-int  dup(int __handle);
-int  dup2(int __handle1,int __handle2);
-int  eof(int __handle);
-long filelength(int __handle);
-int  isatty(int __handle);
-int  lock(int __handle,unsigned long __offset,unsigned long __nbytes);
-long lseek(int __handle,long __offset,int __origin);
-int  open(const char *__path,int __oflag,...);
-int  read(int __handle,void *__buf,unsigned int __len);
-int  setmode(int __handle,int __mode);
-int  sopen(const char *__path,int __oflag,int __shflag,...);
-long tell(int __handle);
-int  umask(int __permission);
-int  unlink(const char *__path);
-int  unlock(int __handle,unsigned long __offset,unsigned long __nbytes);
-int  write(int __handle,void *__buf,unsigned int __len);
+extern int  access(const char *__path,int __mode);
+extern int  chmod(const char *__path,int __pmode);
+extern int  chsize(int __handle,long __size);
+extern int  close(int __handle);
+extern int  creat(const char *__path,int __pmode);
+extern int  dup(int __handle);
+extern int  dup2(int __handle1,int __handle2);
+extern int  eof(int __handle);
+extern long filelength(int __handle);
+extern int  isatty(int __handle);
+extern int  lock(int __handle,unsigned long __offset,unsigned long __nbytes);
+extern long lseek(int __handle,long __offset,int __origin);
+extern int  open(const char *__path,int __oflag,...);
+extern int  read(int __handle,void *__buf,unsigned int __len);
+extern int  setmode(int __handle,int __mode);
+extern int  sopen(const char *__path,int __oflag,int __shflag,...);
+extern long tell(int __handle);
+extern int  umask(int __permission);
+extern int  unlink(const char *__path);
+extern int  unlock(int __handle,unsigned long __offset,unsigned long __nbytes);
+extern int  write(int __handle,void *__buf,unsigned int __len);
 #ifndef _STAT_H_INCLUDED
  #include <sys/stat.h>
 #endif

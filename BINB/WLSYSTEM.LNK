@@ -115,8 +115,7 @@ system begin qnx386
     option osname='QNX 32-bit'
     libpath %WATCOM%\lib386
     libpath %WATCOM%\lib386\qnx
-#   format qnx flat
-    format qnx
+    format qnx ^
 end
 system begin penpoint
     option osname=Penpoint

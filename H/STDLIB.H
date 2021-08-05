@@ -48,37 +48,37 @@ typedef struct	{
 	long	rem;
 } ldiv_t;
 
-void		 abort( void );
-int		 abs( int __j );
-int		 atexit( register void ( *__func )( void ) );
-double		 atof( const char *__nptr );
-int		 atoi( const char *__nptr );
-long int	 atol( const char *__nptr );
-void		*bsearch( const void *__key, const void *__base,
+extern void	 abort( void );
+extern int	 abs( int __j );
+extern int	 atexit( register void ( *__func )( void ) );
+extern double	 atof( const char *__nptr );
+extern int	 atoi( const char *__nptr );
+extern long int  atol( const char *__nptr );
+extern void	*bsearch( const void *__key, const void *__base,
 		    size_t __nmemb, size_t __size,
 		    int ( *__compar )( const void *__pkey, const void *__pbase ) );
-void		*calloc( size_t __n, size_t __size );
-div_t		 div( int __numer, int __denom );
-void		 exit( int __status );
-void		 free( void *__ptr );
-char		*getenv( const char *__name );
-long int	 labs( long int __j );
-ldiv_t		 ldiv( long int __numer, long int __denom );
-void		*malloc( size_t __size );
-int		 mblen( const char *__s, size_t __n );
-size_t		 mbstowcs( wchar_t *__pwcs, const char *__s, size_t __n );
-int		 mbtowc( wchar_t *__pwc, const char *__s, size_t __n );
-size_t		 wcstombs( char *__s, const wchar_t *__pwcs, size_t __n );
-int		 wctomb( char *__s, wchar_t __wchar );
-void		 qsort( void *__base, size_t __nmemb, size_t __size,
+extern void	*calloc( size_t __n, size_t __size );
+extern div_t	 div( int __numer, int __denom );
+extern void	 exit( int __status );
+extern void	 free( void *__ptr );
+extern char	*getenv( const char *__name );
+extern long int  labs( long int __j );
+extern ldiv_t	 ldiv( long int __numer, long int __denom );
+extern void	*malloc( size_t __size );
+extern int	 mblen( const char *__s, size_t __n );
+extern size_t	 mbstowcs( wchar_t *__pwcs, const char *__s, size_t __n );
+extern int	 mbtowc( wchar_t *__pwc, const char *__s, size_t __n );
+extern size_t	 wcstombs( char *__s, const wchar_t *__pwcs, size_t __n );
+extern int	 wctomb( char *__s, wchar_t __wchar );
+extern void	 qsort( void *__base, size_t __nmemb, size_t __size,
 		    int (*__compar)( const void *, const void * ) );
-int		 rand( void );
-void		*realloc( void *__ptr, size_t __size );
-void		 srand( unsigned int __seed );
-double		 strtod( const char *__nptr, char **__endptr );
-long int	 strtol( const char *__nptr, char **__endptr, int __base );
-unsigned long	 strtoul( const char *__nptr, char **__endptr, int __base );
-int		 system( const char *__string );
+extern int	 rand( void );
+extern void	*realloc( void *__ptr, size_t __size );
+extern void	 srand( unsigned int __seed );
+extern double	 strtod( const char *__nptr, char **__endptr );
+extern long int  strtol( const char *__nptr, char **__endptr, int __base );
+extern unsigned long	 strtoul( const char *__nptr, char **__endptr, int __base );
+extern int	 system( const char *__string );
 
 #ifdef	__INLINE_FUNCTIONS__
  #pragma intrinsic(abs,div,labs)
@@ -97,32 +97,32 @@ int		 system( const char *__string );
 
 #if !defined(NO_EXT_KEYS) /* extensions enabled */
 
-unsigned	 atoh( const char *__nptr );
-void		 _exit( int __status );
+extern unsigned  atoh( const char *__nptr );
+extern void	 _exit( int __status );
 #pragma aux	 _exit	 aborts;
-char		*ecvt( double __val, int __ndig, int *__dec, int *__sign );
-char		*fcvt( double __val, int __ndig, int *__dec, int *__sign );
-char		*_fullpath( char *__buf, const char *__path, size_t __size );
-char		*gcvt( double __val, int __ndig, char *__buf );
-char		*itoa( int __value, char *__buf, int __radix );
-unsigned long	 _lrotl( unsigned long __value, unsigned int __shift );
-unsigned long	 _lrotr( unsigned long __value, unsigned int __shift );
-char		*ltoa( long int __value, char *__buf, int __radix );
-void		 _makepath( char *__path, const char *__drive,
+extern char	*ecvt( double __val, int __ndig, int *__dec, int *__sign );
+extern char	*fcvt( double __val, int __ndig, int *__dec, int *__sign );
+extern char	*_fullpath( char *__buf, const char *__path, size_t __size );
+extern char	*gcvt( double __val, int __ndig, char *__buf );
+extern char	*itoa( int __value, char *__buf, int __radix );
+extern unsigned long _lrotl( unsigned long __value, unsigned int __shift );
+extern unsigned long _lrotr( unsigned long __value, unsigned int __shift );
+extern char	*ltoa( long int __value, char *__buf, int __radix );
+extern void	 _makepath( char *__path, const char *__drive,
 		    const char *__dir, const char *__fname,
 		    const char *__ext );
-int		 putenv( const char *__string );
-unsigned int	 _rotl( unsigned int __value, unsigned int __shift );
-unsigned int	 _rotr( unsigned int __value, unsigned int __shift );
-void		 _searchenv( const char *__name, const char *__env_var,
+extern unsigned int _rotl( unsigned int __value, unsigned int __shift );
+extern unsigned int _rotr( unsigned int __value, unsigned int __shift );
+extern int	 putenv( const char *__string );
+extern void	 _searchenv( const char *__name, const char *__env_var,
 		    char *__buf );
-void		 _splitpath2( const char *__inp, char *__outp,
+extern void	 _splitpath2( const char *__inp, char *__outp,
 		    char **__drive, char **__dir, char **__fn, char **__ext );
-void		 _splitpath( const char *__path, char *__drive,
+extern void	 _splitpath( const char *__path, char *__drive,
 		    char *__dir, char *__fname, char *__ext );
-void		 swab( char *__src, char *__dest, int __num );
-char		*ultoa( unsigned long int __value, char *__buf, int __radix );
-char		*utoa( unsigned int __value, char *__buf, int __radix );
+extern void	 swab( char *__src, char *__dest, int __num );
+extern char	*ultoa( unsigned long int __value, char *__buf, int __radix );
+extern char	*utoa( unsigned int __value, char *__buf, int __radix );
 
 #ifdef	__INLINE_FUNCTIONS__
  #pragma intrinsic(_rotl,_rotr)
@@ -133,13 +133,18 @@ char		*utoa( unsigned int __value, char *__buf, int __radix );
 
 #ifndef __cplusplus
 /* min and max macros */
+#ifndef max
 #define max(a,b)  (((a) > (b)) ? (a) : (b))
+#endif
+#ifndef min
 #define min(a,b)  (((a) < (b)) ? (a) : (b))
+#endif
 #endif
 
 /*
- * The following sizes are the maximum sizes of buffers used by the _makepath()
- * and _splitpath() functions. They include space for the '\0' terminator.
+ * The following sizes are the maximum sizes of buffers used by the _fullpath()
+ * _makepath() and _splitpath() functions.  They include space for the '\0'
+ * terminator.
  */
 #if defined(__OS2__) || defined(__NT__)
 #define _MAX_PATH   260 /* maximum length of full pathname */
@@ -163,9 +168,10 @@ char		*utoa( unsigned int __value, char *__buf, int __radix );
 
 extern char **__near environ;	/*  pointer to environment table	*/
 
-
-#define errno (*__get_errno_ptr())
-extern volatile int errno;		/*  ANSI error number		    */
+#ifndef errno
+    #define errno (*__get_errno_ptr())
+#endif
+extern volatile int errno;
 #define _doserrno (*__get_doserrno_ptr())
 extern	int		_doserrno;	/* DOS system error code value */
 extern	unsigned __near _psp;		/* Program Segment Prefix */
@@ -182,10 +188,10 @@ extern unsigned char __near _osmajor;	/*  O/S version #		    */
 extern unsigned char __near _osminor;	/*  O/S version #		    */
 extern unsigned __near	    _amblksiz;	/*  mallocs done in multiples of    */
 
- void __near *__brk(unsigned __new_brk_value);
- void __near *sbrk(int __increment);
+extern void __near *__brk(unsigned __new_brk_value);
+extern void __near *sbrk(int __increment);
  typedef void (*onexit_t)();
- onexit_t onexit(onexit_t __func);
+extern onexit_t onexit(onexit_t __func);
 #endif
 
 #pragma pack();

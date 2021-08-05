@@ -86,6 +86,7 @@ typedef void gsa_anr(
  *   although most adapters will ignore most fields.  It may also modify      *
  *   some fields, as noted elsewhere.                                         *
  *----------------------------------------------------------------------------*/
+struct sktswch;
 typedef struct skthdr
    {
    struct skthdr  *gso_next;     /* generic adapter's queue */
@@ -150,6 +151,10 @@ typedef struct skthdr
  *   BSD interface routines, called from above by Clib stubs.                 *
  *   These may also be called by non-Clib NW/386 NLMs.                        *
  *----------------------------------------------------------------------------*/
+struct sockaddr;
+struct msghdr;
+struct timeval;
+
 skthdr *bsd_accept(
          skthdr *sktpt,
          struct sockaddr *addr,

@@ -200,6 +200,8 @@ typedef struct {
     * Structure returned for
     * FSHOOK_PRE_MODIFYDIRENTRY and FSHOOK_POST_MODIFYDIRENTRY
     *--------------------------------------------------------------------*/
+struct ModifyStructure;
+struct ModifyStructure;
 typedef struct {
    LONG   connection;
    LONG   task;

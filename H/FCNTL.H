@@ -24,8 +24,8 @@ extern "C" {
 /*
  *  POSIX 1003.1 Prototypes.
  */
-int open( const char *__path, int __oflag, ... );
-int sopen( const char *__path, int __oflag, int __share, ... );
+extern int open( const char *__path, int __oflag, ... );
+extern int sopen( const char *__path, int __oflag, int __share, ... );
 #pragma pack();
 
 #define _FCNTL_H_INCLUDED

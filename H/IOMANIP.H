@@ -12,7 +12,7 @@
 #include <iostream.h>
 #include <generic.h>
 
-// In the absence of templates, this macro converts a statement such as
+// In the absence of templates, these macros convert a statement such as
 //      SMANIP_define( int )
 // into the class definitions for
 //      SMANIPint
@@ -24,97 +24,107 @@
 //	IOMANIPint
 //      IOAPPint
 
+#define SMANIP(__Typ)	name2(SMANIP,__Typ)
+#define SAPP(__Typ)	name2(SAPP,__Typ)
+#define IMANIP(__Typ)	name2(IMANIP,__Typ)
+#define IAPP(__Typ)	name2(IAPP,__Typ)
+#define OMANIP(__Typ)	name2(OMANIP,__Typ)
+#define OAPP(__Typ)	name2(OAPP,__Typ)
+#define IOMANIP(__Typ)	name2(IOMANIP,__Typ)
+#define IOAPP(__Typ)	name2(IOAPP,__Typ)
+
 #define SMANIP_define(__Typ) \
-class name2(SMANIP,__Typ) { \
+class SMANIP(__Typ) { \
     ios & (*__f)( ios &, __Typ ); \
     __Typ __p; \
 public: \
-    name2(SMANIP,__Typ)( ios & (*__f_in)( ios &, __Typ ), __Typ __p_in ) : \
+    SMANIP(__Typ)( ios & (*__f_in)( ios &, __Typ ), __Typ __p_in ) : \
 	__f(__f_in), __p(__p_in) {} \
-    friend istream &operator >> ( istream &, name2(SMANIP,__Typ) & ); \
-    friend ostream &operator << ( ostream &, name2(SMANIP,__Typ) & ); \
+    friend istream &operator >> ( istream &, const SMANIP(__Typ) & ); \
+    friend ostream &operator << ( ostream &, const SMANIP(__Typ) & ); \
 }; \
-class name2(IMANIP,__Typ) { \
-    ios & (*__f)( ios &, __Typ ); \
+class IMANIP(__Typ) { \
+    istream & (*__f)( istream &, __Typ ); \
     __Typ __p; \
 public: \
-    name2(IMANIP,__Typ)( ios & (*__f_in)( ios &, __Typ ), __Typ __p_in ) : \
+    IMANIP(__Typ)( istream & (*__f_in)( istream &, __Typ ), __Typ __p_in ) : \
 	__f(__f_in), __p(__p_in) {} \
-    friend istream &operator >> ( istream &, name2(IMANIP,__Typ) & ); \
+    friend istream &operator >> ( istream &, const IMANIP(__Typ) & ); \
 }; \
-class name2(OMANIP,__Typ) { \
-    ios & (*__f)( ios &, __Typ ); \
+class OMANIP(__Typ) { \
+    ostream & (*__f)( ostream &, __Typ ); \
     __Typ __p; \
 public: \
-    name2(OMANIP,__Typ)( ios & (*__f_in)( ios &, __Typ ), __Typ __p_in ) : \
+    OMANIP(__Typ)( ostream & (*__f_in)( ostream &, __Typ ), __Typ __p_in ) : \
 	__f(__f_in), __p(__p_in) {} \
-    friend ostream &operator << ( ostream &, name2(OMANIP,__Typ) & ); \
+    friend ostream &operator << ( ostream &, const OMANIP(__Typ) & ); \
 }; \
-class name2(IOMANIP,__Typ) { \
-    ios & (*__f)( ios &, __Typ ); \
+class IOMANIP(__Typ) { \
+    iostream & (*__f)( iostream &, __Typ ); \
     __Typ __p; \
 public: \
-    name2(IOMANIP,__Typ)( ios & (*__f_in)( ios &, __Typ ), __Typ __p_in ) : \
+    IOMANIP(__Typ)( iostream & (*__f_in)( iostream &, __Typ ), __Typ __p_in ) : \
 	__f(__f_in), __p(__p_in) {} \
-    friend istream &operator >> ( istream &, name2(IOMANIP,__Typ) & ); \
-    friend ostream &operator << ( ostream &, name2(IOMANIP,__Typ) & ); \
+    friend istream &operator >> ( iostream &, const IOMANIP(__Typ) & ); \
+    friend ostream &operator << ( iostream &, const IOMANIP(__Typ) & ); \
 }; \
-class name2(SAPP,__Typ) { \
+class SAPP(__Typ) { \
     ios & (*__f)( ios &, __Typ ); \
 public: \
-    name2(SAPP,__Typ)( ios & (*__f_in)( ios &, __Typ ) ) : __f( __f_in ) {} \
-    name2(SMANIP,__Typ) operator () ( __Typ __p ) { \
-	return name2(SMANIP,__Typ)( __f, __p ); \
+    SAPP(__Typ)( ios & (*__f_in)( ios &, __Typ ) ) : __f( __f_in ) {} \
+    SMANIP(__Typ) operator () ( __Typ __p ) { \
+	return SMANIP(__Typ)( __f, __p ); \
     } \
 }; \
-class name2(IAPP,__Typ) { \
-    ios & (*__f)( ios &, __Typ ); \
+class IAPP(__Typ) { \
+    istream & (*__f)( istream &, __Typ ); \
 public: \
-    name2(IAPP,__Typ)( ios & (*__f_in)( ios &, __Typ ) ) : __f( __f_in ) {} \
-    name2(IMANIP,__Typ) operator () ( __Typ __p ) { \
-	return name2(IMANIP,__Typ)( __f, __p ); \
+    IAPP(__Typ)( istream & (*__f_in)( istream &, __Typ ) ) : __f( __f_in ) {} \
+    IMANIP(__Typ) operator () ( __Typ __p ) { \
+	return IMANIP(__Typ)( __f, __p ); \
     } \
 }; \
-class name2(OAPP,__Typ) { \
-    ios & (*__f)( ios &, __Typ ); \
+class OAPP(__Typ) { \
+    ostream & (*__f)( ostream &, __Typ ); \
 public: \
-    name2(OAPP,__Typ)( ios & (*__f_in)( ios &, __Typ ) ) : __f( __f_in ) {} \
-    name2(OMANIP,__Typ) operator () ( __Typ __p ) { \
-	return name2(OMANIP,__Typ)( __f, __p ); \
+    OAPP(__Typ)( ostream & (*__f_in)( ostream &, __Typ ) ) : __f( __f_in ) {} \
+    OMANIP(__Typ) operator () ( __Typ __p ) { \
+	return OMANIP(__Typ)( __f, __p ); \
     } \
 }; \
-class name2(IOAPP,__Typ) { \
-    ios & (*__f)( ios &, __Typ ); \
+class IOAPP(__Typ) { \
+    iostream & (*__f)( iostream &, __Typ ); \
 public: \
-    name2(IOAPP,__Typ)( ios & (*__f_in)( ios &, __Typ ) ) : __f( __f_in ) {} \
-    name2(IOMANIP,__Typ) operator () ( __Typ __p ) { \
-	return name2(IOMANIP,__Typ)( __f, __p ); \
+    IOAPP(__Typ)( iostream & (*__f_in)( iostream &, __Typ ) ) : __f( __f_in ) {} \
+    IOMANIP(__Typ) operator () ( __Typ __p ) { \
+	return IOMANIP(__Typ)( __f, __p ); \
     } \
 }; \
-inline istream &operator >> ( istream &__is, name2(SMANIP,__Typ) &__m ) { \
+inline istream &operator >> ( istream &__is, const SMANIP(__Typ) &__m ) { \
     (__m.__f)( __is, __m.__p ); \
     return( __is ); \
 } \
-inline ostream &operator << ( ostream &__os, name2(SMANIP,__Typ) &__m ) { \
+inline ostream &operator << ( ostream &__os, const SMANIP(__Typ) &__m ) { \
     (__m.__f)( __os, __m.__p ); \
     return( __os ); \
 } \
-inline istream &operator >> ( istream &__is, name2(IMANIP,__Typ) &__m ) { \
+inline istream &operator >> ( istream &__is, const IMANIP(__Typ) &__m ) { \
     (__m.__f)( __is, __m.__p ); \
     return( __is ); \
 } \
-inline ostream &operator << ( ostream &__os, name2(OMANIP,__Typ) &__m ) { \
+inline ostream &operator << ( ostream &__os, const OMANIP(__Typ) &__m ) { \
     (__m.__f)( __os, __m.__p ); \
     return( __os ); \
 } \
-inline istream &operator >> ( istream &__is, name2(IOMANIP,__Typ) &__m ) { \
+inline istream &operator >> ( iostream &__is, const IOMANIP(__Typ) &__m ) { \
     (__m.__f)( __is, __m.__p ); \
     return( __is ); \
 } \
-inline ostream &operator << ( ostream &__os, name2(IOMANIP,__Typ) &__m ) { \
+inline ostream &operator << ( iostream &__os, const IOMANIP(__Typ) &__m ) { \
     (__m.__f)( __os, __m.__p ); \
     return( __os ); \
 }
+#define IOMANIPdeclare(__Typ) SMANIP_define(__Typ)
 
 // In the absence of templates, this macro converts a statement such as
 //      SMANIP_make( int, setw );
@@ -122,7 +132,7 @@ inline ostream &operator << ( ostream &__os, name2(IOMANIP,__Typ) &__m ) { \
 //      SMANIPint setw( int __p );
 // to create the prototypes for the manipulators used with streams.
 
-#define SMANIP_make(__Typ,__n) name2(SMANIP,__Typ) __n(__Typ __p)
+#define SMANIP_make(__Typ,__n) SMANIP(__Typ) __n(__Typ __p)
 
 // Create instances of:
 //      SMANIPint

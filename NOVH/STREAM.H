@@ -8,6 +8,7 @@ extern "C" {
 #endif
 #define _STREAM_
 
+struct qinit;
 /* defines module or driver */
 struct streamtab {
 	struct qinit	* st_rdinit;	/* defines read QUEUE */
@@ -16,6 +17,8 @@ struct streamtab {
 	struct qinit	* st_muxwinit;	/* ditto */
 };
 
+struct q_xtra;
+struct msgb;
 struct queue {
 	struct qinit	* q_qinfo;	/* procedures and limits for queue */
 	struct msgb	* q_first;	/* head of message queue */
@@ -48,6 +51,8 @@ typedef	struct	queue	queue_t;
 #define QFULL	F_Q_FULL
 #define QENAB	F_Q_TO_SCHEDULE
 
+struct module_stat;
+struct module_info;
 struct	qinit {
 	int	(*qi_putp)();		/* put procedure */
 	int	(*qi_srvp)();		/* service procedure */
@@ -67,6 +72,7 @@ struct	module_info {
 	short	mi_lowat;	/* lo-water mark, for flow control */
 };
 
+struct datab;
 /* message block */
 struct	msgb {
 	struct msgb	* b_next;	/* next message on queue */
@@ -140,6 +146,7 @@ struct	iocblk {
 };
 
 /* structure contained in an M_PASSFP message block */
+struct sth_s;
 struct	strpfp {
 	unsigned long	pass_file_cookie;	/* file 'pointer' */
 	unsigned short	pass_uid;		/* user id of sending stream */

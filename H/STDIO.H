@@ -56,12 +56,20 @@ typedef long	fpos_t;
 #if !defined(NO_EXT_KEYS) /* extensions enabled */
  #define FOPEN_MAX	_NFILES
  #define OPEN_MAX	FOPEN_MAX
- #define PATH_MAX	80
+ #if defined(__OS2__) || defined(__NT__)
+  #define PATH_MAX	259 /* maximum length of full pathname excl. '\0' */
+ #else
+  #define PATH_MAX	143 /* maximum length of full pathname excl. '\0' */
+ #endif
 #else			/* extensions not enabled */
  #define FOPEN_MAX	(_NFILES-2)
 #endif
 
+#ifdef __SW_ND
+extern	FILE   __iob[];
+#else
 extern	FILE   __near __iob[];
+#endif
 /*
  *  Define macros to access the three default file pointer (and descriptors)
  *  provided to each process by default.  They will always occupy the
@@ -102,61 +110,61 @@ extern	FILE   __near __iob[];
 #define L_tmpnam	13
 #define TMP_MAX     (26*26*26)		/*  Max times tmpnam can be called  */
 
-void	 clearerr( FILE *__fp );
-int	 fclose( FILE *__fp );
-int	 feof( FILE *__fp );
-int	 ferror( FILE *__fp );
-int	 fflush( FILE *__fp );
-int	 fgetc( FILE *__fp );
-int	 fgetpos( FILE *__fp, fpos_t *__pos );
-char	*fgets( char *__s, int __n, FILE *__fp );
-FILE	*fopen( const char *__filename, const char *__mode );
-int	 fprintf( FILE *__fp, const char *__format, ... );
-int	 fputc( int __c, FILE *__fp );
-int	 fputs( const char *__s, FILE *__fp );
-size_t	 fread( void *__ptr, size_t __size, size_t __n, FILE *__fp );
-FILE	*freopen( const char *__filename, const char *__mode, FILE *__fp );
-int	 fscanf( FILE*__fp, const char *__format, ... );
-int	 fseek( FILE *__fp, long int __offset, int __whence );
-int	 fsetpos( FILE *__fp, const fpos_t *__pos );
-long int ftell( FILE *__fp );
-size_t	 fwrite( const void *__ptr, size_t __size, size_t __n, FILE *__fp );
-int	 getc( FILE *__fp );
-int	 getchar( void );
-char	*gets( char *__s );
-void	 perror( const char *__s );
-int	 printf( const char *__format, ... );
-int	 putc( int __c, FILE *__fp );
-int	 putchar( int __c );
-int	 puts( const char *__s );
-int	 remove( const char *__filename );
-int	 rename( const char *__old, const char *__new );
-void	 rewind( FILE *__fp );
-int	 scanf( const char *__format, ... );
-void	 setbuf( FILE *__fp, char *__buf );
-int	 setvbuf( FILE *__fp, char *__buf, int __mode, size_t __size );
-int	 sprintf( char *__s, const char *__format, ... );
-int	 sscanf( const char *__s, const char *__format, ... );
-FILE	*tmpfile( void );
-char	*tmpnam( char *__s );
-int	 ungetc( int __c, FILE *__fp );
-int	 vfprintf( FILE *__fp, const char *__format, __va_list __arg );
-int	 vprintf( const char *__format, __va_list __arg );
-int	 vsprintf( char *__s, const char *__format, __va_list __arg );
+extern void	clearerr( FILE *__fp );
+extern int	fclose( FILE *__fp );
+extern int	feof( FILE *__fp );
+extern int	ferror( FILE *__fp );
+extern int	fflush( FILE *__fp );
+extern int	fgetc( FILE *__fp );
+extern int	fgetpos( FILE *__fp, fpos_t *__pos );
+extern char	*fgets( char *__s, int __n, FILE *__fp );
+extern FILE	*fopen( const char *__filename, const char *__mode );
+extern int	fprintf( FILE *__fp, const char *__format, ... );
+extern int	fputc( int __c, FILE *__fp );
+extern int	fputs( const char *__s, FILE *__fp );
+extern size_t	fread( void *__ptr, size_t __size, size_t __n, FILE *__fp );
+extern FILE	*freopen( const char *__filename, const char *__mode, FILE *__fp );
+extern int	fscanf( FILE*__fp, const char *__format, ... );
+extern int	fseek( FILE *__fp, long int __offset, int __whence );
+extern int	fsetpos( FILE *__fp, const fpos_t *__pos );
+extern long int ftell( FILE *__fp );
+extern size_t	fwrite( const void *__ptr, size_t __size, size_t __n, FILE *__fp );
+extern int	getc( FILE *__fp );
+extern int	getchar( void );
+extern char	*gets( char *__s );
+extern void	perror( const char *__s );
+extern int	printf( const char *__format, ... );
+extern int	putc( int __c, FILE *__fp );
+extern int	putchar( int __c );
+extern int	puts( const char *__s );
+extern int	remove( const char *__filename );
+extern int	rename( const char *__old, const char *__new );
+extern void	rewind( FILE *__fp );
+extern int	scanf( const char *__format, ... );
+extern void	setbuf( FILE *__fp, char *__buf );
+extern int	setvbuf( FILE *__fp, char *__buf, int __mode, size_t __size );
+extern int	sprintf( char *__s, const char *__format, ... );
+extern int	sscanf( const char *__s, const char *__format, ... );
+extern FILE	*tmpfile( void );
+extern char	*tmpnam( char *__s );
+extern int	ungetc( int __c, FILE *__fp );
+extern int	vfprintf( FILE *__fp, const char *__format, __va_list __arg );
+extern int	vprintf( const char *__format, __va_list __arg );
+extern int	vsprintf( char *__s, const char *__format, __va_list __arg );
 
 #if !defined(NO_EXT_KEYS) /* extensions enabled */
- int	 fcloseall( void );
- FILE	*fdopen( int __handle, const char *__mode );
- int     _grow_handles( int __new_count );
- int	 fgetchar( void );
- int	 fputchar( int __c );
- FILE	*_fsopen( const char *__filename, const char *__mode, int __shflag );
- int	 flushall( void );
- int	 vfscanf( FILE *__fp, const char *__format, __va_list __arg );
- int	 vscanf( const char *__format, __va_list __arg );
- int	 vsscanf( const char *__s, const char *__format, __va_list __arg );
- int	 _bprintf( char *__buf, unsigned int __bufsize, const char *__fmt, ... );
- int	 _vbprintf( char *__s, unsigned int __bufsize, const char *__format, __va_list __arg );
+extern int	fcloseall( void );
+extern FILE	*fdopen( int __handle, const char *__mode );
+extern int	_grow_handles( int __new_count );
+extern int	fgetchar( void );
+extern int	fputchar( int __c );
+extern FILE	*_fsopen( const char *__filename, const char *__mode, int __shflag );
+extern int	flushall( void );
+extern int	vfscanf( FILE *__fp, const char *__format, __va_list __arg );
+extern int	vscanf( const char *__format, __va_list __arg );
+extern int	vsscanf( const char *__s, const char *__format, __va_list __arg );
+extern int	_bprintf( char *__buf, unsigned int __bufsize, const char *__fmt, ... );
+extern int	_vbprintf( char *__s, unsigned int __bufsize, const char *__format, __va_list __arg );
 #endif
 
 
@@ -164,20 +172,25 @@ int	 vsprintf( char *__s, const char *__format, __va_list __arg );
 #define feof(fp)	((fp)->_flag & _EOF)
 #define ferror(fp)	((fp)->_flag & _SFERR)
 #define fileno(fp)	((fp)->_handle)
+#if defined(__SW_BD) || defined(__SW_BM)
+#define getc(fp)	fgetc(fp)
+#define putc(c,fp)	fputc(c,fp)
+#else
 #define getc(fp) \
 	((fp)->_cnt<=0 \
-	|| !((fp)->_flag&_BINARY) \
-        || (fp)->_flag&_UNGET \
+	|| (fp)->_flag&_UNGET \
+	|| (*(fp)->_ptr)=='\x0d' \
+	|| (*(fp)->_ptr)=='\x1a' \
 	? fgetc(fp) \
 	: ((fp)->_cnt--,*(fp)->_ptr++))
 #define putc(c,fp) \
 	((fp)->_flag&_IONBF \
-	|| !((fp)->_flag&_BINARY) \
 	|| (fp)->_bufsize-(fp)->_cnt<=1 \
 	? fputc(c,fp) \
-	: ((*(fp)->_ptr=(unsigned char)(c))=='\n'&&(fp)->_flag&_IOLBF) \
+	: ((*(fp)->_ptr=(unsigned char)(c))=='\n') \
 	? fputc('\n',fp) \
 	: ((fp)->_flag|=_DIRTY,(fp)->_cnt++,*(fp)->_ptr++))
+#endif
 #define getchar()	getc(stdin)
 #define putchar(c)	putc(c,stdout)
 

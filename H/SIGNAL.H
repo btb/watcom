@@ -36,7 +36,7 @@ typedef void (*__sig_func)( int );
 
 
 int  raise( int __sig );
-void (*signal( int __sig, void (*__func)(int) ) )(int);
+extern void (*signal( int __sig, void (*__func)(int) ) )(int);
 
 #define _SIGNAL_H_INCLUDED
 #ifdef __cplusplus

@@ -4,7 +4,7 @@
 
 * Compile & Link: wfl386 /l=dos4g fscreen
 
-      program screen
+      program fscreen
 
 * Allocatable arrays must be declared by specifying their
 * dimensions using colons only (see WATCOM FORTRAN 77

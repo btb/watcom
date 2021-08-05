@@ -24,9 +24,9 @@
 #define SHRT_MIN    (-32767-1)	/*  minimum value of a short int	*/
 #define SHRT_MAX    32767	/*  maximum value of a short int	*/
 #define USHRT_MAX   65535U	/*  maximum value of an unsigned short	*/
-#define LONG_MAX    2147483647L	    /*	maximum value of a long int	*/
-#define LONG_MIN    (-2147483647L-1) /*	minimum value of a long int	*/
-#define ULONG_MAX   4294967295UL     /*	maximum value of a unsigned long    */
+#define LONG_MAX    2147483647L     /*	maximum value of a long int	*/
+#define LONG_MIN    (-2147483647L-1) /* minimum value of a long int	*/
+#define ULONG_MAX   4294967295UL     /* maximum value of a unsigned long    */
 #ifdef __386__
  #define INT_MAX    2147483647	    /*	minimum value of an int 	*/
  #define INT_MIN    (-2147483647-1) /*	maximum value of an int 	*/

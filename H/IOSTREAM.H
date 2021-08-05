@@ -330,7 +330,7 @@ public:
     istream &operator >> (          float & __f );
     istream &operator >> (         double & __f );
     istream &operator >> (    long double & __f );
-    istream &operator >> (      streambuf & __sb );
+    istream &operator >> (      streambuf * __sb );
     istream &operator >> ( ios &(*__f)( ios & ) );
     istream &operator >> ( istream &(*__f)( istream & ) );
 
@@ -448,7 +448,7 @@ public:
     ostream &operator << (              double  __f );
     ostream &operator << (         long double  __f );
     ostream &operator << (                void *__p );
-    ostream &operator << (           streambuf &__sb );
+    ostream &operator << (           streambuf *__sb );
     ostream &operator << (          char const *__buf );
     ostream &operator << (   signed char const *__buf );
     ostream &operator << ( unsigned char const *__buf );

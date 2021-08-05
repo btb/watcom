@@ -24,7 +24,7 @@ struct utimbuf {
 /*
  *  POSIX 1003.1 Prototype
  */
- int	utime( const char *__path, const struct utimbuf * __times );
+extern int utime( const char *__path, const struct utimbuf * __times );
 
 #pragma pack()
 #define _UTIME_H_INCLUDED

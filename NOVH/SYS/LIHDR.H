@@ -57,7 +57,7 @@ struct DL_error_ack {
 typedef struct DL_ok_ack {
 	long	PRIM_type;
 	long	CORRECT_prim;
-};
+} DL_ok_ack;
 #define	DL_OK_ACK_SIZE		sizeof(struct DL_ok_ack)
 
 struct DL_unitdata_ind {

@@ -177,11 +177,6 @@ struct sockaddr_in {
  * Some standard routines.
  */
 
-extern	unsigned short	ntohs();
-extern	unsigned short	htons();
-extern	unsigned long	ntohl();
-extern	unsigned long	htonl();
-
 /* if Watcom, we can do even better */
 #ifdef __WATCOMC__
 
@@ -212,6 +207,13 @@ extern	unsigned long	htonl( unsigned long value );
 #pragma aux (htonl) ntohl;	/* ntohl is identical to htonl */
 
 #endif	/* __386__ */
+
+#else
+
+extern	unsigned short	ntohs();
+extern	unsigned short	htons();
+extern	unsigned long	ntohl();
+extern	unsigned long	htonl();
 
 #endif	/* __WATCOMC__ */
 

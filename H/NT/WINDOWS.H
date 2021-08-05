@@ -17,12 +17,15 @@ Abstract:
 
 #ifdef __WATCOMC__
 
+#ifdef __cplusplus
+#define _CFRONT_PASS_
 #ifndef _WCHAR_T_DEFINED_
 #define _WCHAR_T_DEFINED_
-#ifdef __cplusplus
 typedef long char wchar_t;
-#define _CFRONT_PASS_
+#endif
 #else
+#ifndef _WCHAR_T_DEFINED_
+#define _WCHAR_T_DEFINED_
 typedef unsigned short wchar_t;
 #endif
 #endif
@@ -32,7 +35,9 @@ typedef unsigned short wchar_t;
 #define _X86_
 #define I386_HOST	1
 #define _MSC_VER	800
+#ifndef _M_IX86
 #define _M_IX86		300
+#endif
 struct _EXCEPTION_RECORD;
 struct _CONTEXT;
 struct _RTL_CRITICAL_SECTION;

@@ -94,7 +94,11 @@ struct management {
 				/* T_NO: the following parameters are used */
 	int 	ltpdu;		/* maximum length of TPDU (in octets) */
 	short 	reastime;	/* reassignment time (in seconds) */
+#ifdef __cplusplus
+	char 	_class;		/* preferred class; value T_CLASS0 - TCLASS4 */
+#else
 	char 	class;		/* preferred class; value T_CLASS0 - TCLASS4 */
+#endif
 	char 	altclass;	/* alternative class */
 	char 	extform;	/* extended format T_YES or T_NO */
 	char 	flowctrl;	/* flow control: T_YES or T_NO */

@@ -4,5 +4,4 @@ file dll16
 option oneautodata
 option map
 option heapsize=32K
-export _Lib1.1
 libfile libentry

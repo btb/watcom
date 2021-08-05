@@ -12,12 +12,12 @@ extern "C" {
 /*
  *  POSIX 1003.1 Prototypes
  */
-int   execl( const char *__path, const char *__arg0, ... );
-int   execle( const char *__path, const char *__arg0, ... );
-int   execlp( const char *__file, const char *__arg0, ... );
-int   execv( const char *__path, char *const __argv[] );
-int   execve( const char *__path, char *const __argv[], char *const __envp[] );
-int   execvp( const char *__file, char *const __argv[] );
+extern int execl( const char *__path, const char *__arg0, ... );
+extern int execle( const char *__path, const char *__arg0, ... );
+extern int execlp( const char *__file, const char *__arg0, ... );
+extern int execv( const char *__path, char *const __argv[] );
+extern int execve( const char *__path, char *const __argv[], char *const __envp[] );
+extern int execvp( const char *__file, char *const __argv[] );
 
 
 /* mode flags for spawnxxx routines */
@@ -32,8 +32,8 @@ extern int __p_overlay;
  *  Prototypes for non-POSIX functions
  */
 
-int   execlpe( const char *__file, const char *__arg0, ... );
-int   execvpe( const char *__file, char *const __argv[], char *const __envp[] );
+extern int execlpe( const char *__file, const char *__arg0, ... );
+extern int execvpe( const char *__file, char *const __argv[], char *const __envp[] );
 
 /* values for __action_code used with cwait() */
 
@@ -41,34 +41,34 @@ int   execvpe( const char *__file, char *const __argv[], char *const __envp[] );
 #define WAIT_GRANDCHILD 1
 
 #ifdef __386__
-int _beginthread( register void (*__start_address)(void *),
+extern int _beginthread( register void (*__start_address)(void *),
      void *__stack_bottom, unsigned __stack_size,void *__arglist );
-int   cwait(int *__status,int __process_id,int __action_code);
-void _endthread();
+extern int cwait(int *__status,int __process_id,int __action_code);
+extern void _endthread();
 #else
-int __far _beginthread( register void (__far *__start_address)(void __far *),
+extern int __far _beginthread( register void (__far *__start_address)(void __far *),
      void __far *__stack_bottom, unsigned __stack_size,void __far *__arglist );
-int   cwait(int *__status,int __process_id,int __action_code);
-void __far _endthread();
+extern int   cwait(int *__status,int __process_id,int __action_code);
+extern void __far _endthread();
 #endif
-void  abort(void);
-void  exit(int __status);
-void  _exit(int __status);
-char *getcmd(char *__buffer);
-char *getenv(const char *__name);
-int   putenv(const char *__string);
-int   spawnl(int __mode,const char *__path, const char *__arg0,...);
-int   spawnle(int __mode,const char *__path, const char *__arg0,...);
-int   spawnlp(int __mode,const char *__path, const char *__arg0,...);
-int   spawnlpe(int __mode,const char *__path, const char *__arg0,...);
-int   spawnv(int __mode,const char *__path,char **__argv);
-int   spawnve(int __mode,const char *__path,char **__argv,char **__envp);
-int   spawnvp(int __mode,const char *__path,char **__argv);
-int   spawnvpe(int __mode,const char *__path,char **__argv,char **__envp);
-int   system(const char *__cmd);
+extern void abort(void);
+extern void exit(int __status);
+extern void _exit(int __status);
+extern char *getcmd(char *__buffer);
+extern char *getenv(const char *__name);
+extern int putenv(const char *__string);
+extern int spawnl(int __mode,const char *__path, const char *__arg0,...);
+extern int spawnle(int __mode,const char *__path, const char *__arg0,...);
+extern int spawnlp(int __mode,const char *__path, const char *__arg0,...);
+extern int spawnlpe(int __mode,const char *__path, const char *__arg0,...);
+extern int spawnv(int __mode,const char *__path,char **__argv);
+extern int spawnve(int __mode,const char *__path,char **__argv,char **__envp);
+extern int spawnvp(int __mode,const char *__path,char **__argv);
+extern int spawnvpe(int __mode,const char *__path,char **__argv,char **__envp);
+extern int system(const char *__cmd);
 
-int   getpid(void);
-int   wait(int *__status);
+extern int getpid(void);
+extern int wait(int *__status);
 
 #pragma aux	abort	aborts;
 #pragma aux	exit	aborts;

@@ -21,12 +21,12 @@ typedef unsigned int    jmp_buf[13];
 
 #define setjmp(__env)   _setjmp(__env)
 
+int   _setjmp( 
+         jmp_buf  __env );
+
 #if defined(__386__)
 #  pragma aux _setjmp   parm caller [eax];
 #endif
-
-int   _setjmp( 
-         jmp_buf  __env );
 
 void  longjmp( 
          jmp_buf  __env, 

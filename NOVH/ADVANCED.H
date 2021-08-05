@@ -77,6 +77,7 @@ struct   TimeCallBackStructure
 
 // Data structure for RegisterConsoleCommand
 
+struct ResourceTagStructure;
 struct commandParserStructure
 {
    struct commandParserStructure *Link; /* Set by RegisterConsoleCommand */
@@ -372,6 +373,8 @@ struct EventSecurityChangeStruct
    /*------------------------------------------------*
     *Structure returned for EVENT_MODIFY_DIR_ENTRY   *
     *------------------------------------------------*/
+struct DirectoryStructure;
+struct ModifyStructure;
 struct EventModifyDirEntryStruct
 {
    LONG primaryDirectoryEntry;

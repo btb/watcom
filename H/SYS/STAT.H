@@ -78,8 +78,8 @@ struct stat {
 #define S_ISGID 	0002000
 #define S_ISVTX 	0001000
 
-int fstat( int, struct stat * );
-int stat( const char *, struct stat * );
+extern int fstat( int, struct stat * );
+extern int stat( const char *, struct stat * );
 
 #pragma pack();
 #define _STAT_H_INCLUDED

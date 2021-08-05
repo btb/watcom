@@ -339,6 +339,7 @@ extern "C" {
 
 
 
+struct NUTInfo_;
 typedef struct
 {
 	LONG frameLine;

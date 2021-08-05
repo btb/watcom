@@ -34,6 +34,7 @@ ENDM
 	extrn	_end		: byte		; end of BSS (start of STACK)
 
 	extrn	GETMODULEFILENAME : near
+	extrn	WEP		: near
 	extrn	__InitRtns	: near
 	extrn	__FiniRtns	: near
 	extrn	exit_		: near
@@ -386,6 +387,7 @@ __wincmdptr LABEL FWORD
 cmd_offset dd 0
 cmd_seg    dw 0
 filename   db MAX_FILE_NAME dup(0)
+__inDLL	db	0		; 0 => ordinary EXE, non-zero => DLL
 
  __FPE_handler label dword
 ___FPE_handler dd __null_FPE_rtn ; FPE handler
@@ -429,12 +431,15 @@ DATA	ends
 __saved_DS dw 0
 public _cstart_
 public _wstart_
+public __DLLstart_
 _cstart_ proc  far
 _wstart_:
+__DLLstart_:
 	dd	offset	hInstance ; loader starts execution 8 bytes past here
 	dd	_end
 	mov	_LocalPtr,gs
 	mov	WORD PTR ds:DS16,gs	; save the data segment at stack bot
+	mov	__inDLL,bl		; save DLL indicator flag
 
 	mov	__STACKTOP,esp
 	mov	__STACKLOW,100h		; 
@@ -526,9 +531,12 @@ _cstart_ endp
 
 __exit_  proc far
 public __exit_
+	cmp	byte ptr __inDLL,0	; are we in a DLL?
+	jne	short skip_fini		; skip fini rtns if we are
 	push	eax			; save return value
 	call	__FiniRtns		; call finalizer routines
 	pop	eax			; restore return value
+skip_fini:
 	mov	esp,__STACKTOP		; reset stack pointer
 	mov	ds,_LocalPtr		; restore ds
 	ret
@@ -537,6 +545,16 @@ __exit_ endp
 __null_FPE_rtn proc near
 	ret				; return
 __null_FPE_rtn endp
+
+__WEP	proc	far
+	push	eax			; push parm
+	push	cs			; simulate far call
+	call	WEP			; call user's WEP function
+	call	__FiniRtns		; call finalizer routines
+	mov	esp,__STACKTOP		; reset stack pointer
+	mov	ds,_LocalPtr		; restore ds
+	ret				; return
+__WEP	endp
 
 public __GETDS
 __GETDS proc near
