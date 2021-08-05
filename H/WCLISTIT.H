@@ -78,7 +78,7 @@ class WCPtrSListIter : public WCValListIterBase<Type *, WCPtrSList<Type>,
 private:
     int operator--();
     int operator-=( int );
-    void insert( Type * );
+    WCbool insert( Type * );
 
 public:
     inline WCPtrSListIter() {};
@@ -86,8 +86,8 @@ public:
     inline WCPtrSListIter( WCPtrSList<Type> & slist )
          : WCValListIterBase( &slist ) {};
 
-    inline void append( Type * datum ) {
-        WCValListIterBase::append( datum );
+    inline WCbool append( Type * datum ) {
+        return( WCValListIterBase::append( datum ) );
     }
 };
 
@@ -108,12 +108,12 @@ public:
     inline WCPtrDListIter( WCPtrDList<Type> & dlist )
          : WCValListIterBase( &dlist ) {};
 
-    inline void insert( Type * datum ) {
-        WCValListIterBase::insert( datum );
+    inline WCbool insert( Type * datum ) {
+        return( WCValListIterBase::insert( datum ) );
     }
 
-    inline void append( Type * datum ) {
-        WCValListIterBase::append( datum );
+    inline WCbool append( Type * datum ) {
+        return( WCValListIterBase::append( datum ) );
     }
 };
 
@@ -132,7 +132,7 @@ class WCIsvSListIter : public WCIsvListIterBase<Type, WCIsvSList<Type> > {
 private:
     Type * operator--();
     Type * operator-=( int );
-    void insert( Type * );
+    WCbool insert( Type * );
 
 public:
     inline WCIsvSListIter() {};

@@ -221,7 +221,7 @@ inline Complex operator - ( Complex const &__cv, double __dv ) {
 }
 
 inline Complex operator - ( double __dv, Complex const &__cv ) {
-    return Complex( __dv - __cv.real(), __cv.imag() );
+    return Complex( __dv - __cv.real(), - __cv.imag() );
 }
 
 inline Complex operator * ( Complex const &__cv1, Complex const &__cv2 ) {

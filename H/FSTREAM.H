@@ -152,14 +152,14 @@ class fstream : public fstreambase, public iostream {
 public:
     fstream();
     fstream( char const    *__name,
-             ios::openmode  __mode,
+             ios::openmode  __mode = ios::in|ios::out,
              int            __prot = filebuf::openprot );
     fstream( filedesc __fd );
     fstream( filedesc __fd, char *__buf, int __len );
     ~fstream();
 
     void open( char const    *__name,
-               ios::openmode  __mode,
+               ios::openmode  __mode = ios::in|ios::out,
                int            __prot = filebuf::openprot );
 };
 #pragma pack();

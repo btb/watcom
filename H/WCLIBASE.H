@@ -18,7 +18,8 @@
 //  The WCIterExcept class defines the exception handling for the list
 //  iterator classes.  The current errors now supported are:
 //
-//      undef_iter  -- if an iterator is outside the bounds of the list,   
+//      undef_iter  -- if an iterator is outside the bounds of the list, or
+//		       if the iterator was never initialized with a list,
 //                     trying to use it is not defined.
 //      undef_item  -- if an iterator does not have a current value, trying
 //                     to obtain a value list item is not well defined.
@@ -78,25 +79,35 @@ public:
 
 class WCListIterBase : public WCIterExcept {
 protected:
+    enum {			// bit flags for outside_list
+	before_first	= 0x0001,
+	after_last	= 0x0002
+    };
     WCIsvListBase *     curr_list;
     WCSLink *           curr_item;
-    int                 at_end;
+    // if outside_list is non-zero, curr_item must be 0.
+    int			outside_list;
 
-    static WCSLink * base_advance( WCListIterBase * const, int );
-    static WCDLink * base_retreat( WCListIterBase * const, int );
-    static WCSLink * base_tail_hit( WCListIterBase * const, WCSLink * );
-    static void base_tail_unhit( WCListIterBase * const, WCSLink * );
-    static void item_undefined( WCListIterBase * const );
-    static void iter_undefined( WCListIterBase * const );
-    static void range_bad( WCListIterBase * const );
+    WCSLink *           base_advance( int );
+    WCDLink *           base_retreat( int );
+    inline WCSLink *    base_get_tail() {
+	return( curr_list->tail );
+    };
+    WCSLink *           base_tail_hit( WCSLink * );
+    void                base_tail_unhit( WCSLink * );
+    void                item_undefined( void );
+    void                iter_undefined( void );
+    void                range_bad( void );
 
     inline void base_reset();
     inline void base_reset_list( WCIsvListBase * list );
 
 public:
-    inline WCListIterBase() : curr_item(0), curr_list(0), at_end(FALSE) {};
+    inline WCListIterBase() : curr_item( 0 ), curr_list( 0 )
+    				, outside_list( 0 ) {};
     inline WCListIterBase( WCIsvListBase * list )
-                         : curr_item(0), curr_list(list), at_end(FALSE) {};
+                         : curr_item( 0 ), curr_list( list )
+			 , outside_list( before_first ) {};
     inline virtual ~WCListIterBase() = 0;
 
     inline WCSLink * operator()();
@@ -109,8 +120,8 @@ public:
 inline WCListIterBase::~WCListIterBase() {};
 
 inline void WCListIterBase::base_reset() {
-    at_end = FALSE;
     curr_item = 0;
+    outside_list = before_first;
 }
 
 inline void WCListIterBase::base_reset_list( WCIsvListBase * list ) {
@@ -119,23 +130,23 @@ inline void WCListIterBase::base_reset_list( WCIsvListBase * list ) {
 }
 
 inline WCSLink * WCListIterBase::operator()() {
-    return( base_advance( this, 1 ) );
+    return( base_advance( 1 ) );
 }
 
 inline WCSLink * WCListIterBase::operator++() {
-    return( base_advance( this, 1 ) );
+    return( base_advance( 1 ) );
 }
 
 inline WCDLink * WCListIterBase::operator--() {
-    return( base_retreat( this, 1 ) );
+    return( base_retreat( 1 ) );
 }
 
 inline WCSLink * WCListIterBase::operator+=( int incr_amount ) {
-    return( base_advance( this, incr_amount ) );
+    return( base_advance( incr_amount ) );
 }
 
 inline WCDLink * WCListIterBase::operator-=( int incr_amount ) {
-    return( base_retreat( this, incr_amount ) );
+    return( base_retreat( incr_amount ) );
 }
 
 
@@ -147,7 +158,7 @@ inline WCDLink * WCListIterBase::operator-=( int incr_amount ) {
 //
 
 template<class Type, class FType>
-class WCIsvListIterBase : private WCListIterBase {
+class WCIsvListIterBase : public WCListIterBase {
 public:
     inline WCIsvListIterBase() {};
     inline virtual ~WCIsvListIterBase() = 0;
@@ -182,37 +193,60 @@ public:
     };
     
     inline Type * current() {
+	if( ( curr_list == 0 )||( curr_item == 0 ) ) {
+	    item_undefined();
+	    return( 0 );
+	}
         return( (Type *)curr_item );
     };
     
     inline FType * container() {
+	if( curr_list == 0 ) {
+	    iter_undefined();
+	}
         return( (FType *)curr_list );
     };
 
-    void insert( Type * );
+    WCbool insert( Type * );
 
-    void append( Type * );
+    WCbool append( Type * );
 };
 
 template<class Type, class FType>
 inline WCIsvListIterBase<Type,FType>::~WCIsvListIterBase() {};
 
 template<class Type, class FType>
-void WCIsvListIterBase<Type,FType>::insert( Type * datum ) {
-    WCSLink * prev_item = curr_item;
-    if( prev_item != 0 ) {
-        curr_item = ((WCDLink *)prev_item)->prev.link;
+WCbool WCIsvListIterBase<Type,FType>::insert( Type * datum ) {
+    if( ( curr_list == 0 )||( curr_item == 0 ) ) {
+	iter_undefined();
+	return( FALSE );
     }
-    WCSLink * curr_tail = base_tail_hit( this, prev_item );
-    ((FType *)curr_list)->insert( datum );
-    base_tail_unhit( this, curr_tail );
+    WCSLink * prev_item = curr_item;
+    WCbool ret_val;
+    if( prev_item != 0 ) {
+        prev_item = ((WCDLink *)prev_item)->prev.link;
+    }
+    WCSLink * curr_tail = base_tail_hit( prev_item );
+    ret_val = ((FType *)curr_list)->insert( datum );
+    base_tail_unhit( curr_tail );
+    return( ret_val );
 };
 
 template<class Type, class FType>
-void WCIsvListIterBase<Type,FType>::append( Type * datum ) {
-    WCSLink * curr_tail = base_tail_hit( this, curr_item );
-    ((FType *)curr_list)->insert( datum );
-    base_tail_unhit( this, curr_tail );
+WCbool WCIsvListIterBase<Type,FType>::append( Type * datum ) {
+    if( ( curr_list == 0 )||( curr_item == 0 ) ) {
+	iter_undefined();
+	return( FALSE );
+    }
+    WCbool ret_val;
+    if( curr_item == base_get_tail() ) {
+	ret_val = ((FType *)curr_list)->append( datum );
+    } else {
+	WCSLink * curr_tail = base_tail_hit( curr_item );
+	ret_val = ((FType *)curr_list)->insert( datum );
+	base_tail_unhit( curr_tail );
+    }
+    return( ret_val );
 };
 
 
@@ -259,14 +293,17 @@ public:
     };
 
     inline FType * container() {
+	if( curr_list == 0 ) {
+	    iter_undefined();
+	}
         return( (FType *)curr_list );
     };
 
     Type current();
 
-    void insert( Type& );
+    WCbool insert( Type& );
     
-    void append( Type& );
+    WCbool append( Type& );
 };
 
 template<class Type, class FType, class LType>
@@ -275,8 +312,8 @@ inline WCValListIterBase<Type,FType,LType>::~WCValListIterBase() {};
 template<class Type, class FType, class LType>
 Type WCValListIterBase<Type,FType,LType>::current() {
     Type ret_val;
-    if( curr_item == 0 ) {
-        item_undefined( this );
+    if( ( curr_list == 0 )||( curr_item == 0 ) ) {
+        item_undefined();
     } else {
         LType * tmp_nisv = (LType *)(FType *)curr_item;
         ret_val = tmp_nisv->data;
@@ -285,21 +322,37 @@ Type WCValListIterBase<Type,FType,LType>::current() {
 };
 
 template<class Type, class FType, class LType>
-void WCValListIterBase<Type,FType,LType>::insert( Type& datum ) {
-    WCSLink * prev_item = curr_item;
-    if( prev_item != 0 ) {
-        curr_item = ((WCDLink *)prev_item)->prev.link;
+WCbool WCValListIterBase<Type,FType,LType>::insert( Type& datum ) {
+    if( ( curr_list == 0 )||( curr_item == 0 ) ) {
+	iter_undefined();
+	return( FALSE );
     }
-    WCSLink * curr_tail = base_tail_hit( this, prev_item );
-    ((FType *)curr_list)->insert( datum );
-    base_tail_unhit( this, curr_tail );
+    WCSLink * prev_item = curr_item;
+    WCbool ret_val;
+    if( prev_item != 0 ) {
+        prev_item = ((WCDLink *)prev_item)->prev.link;
+    }
+    WCSLink * curr_tail = base_tail_hit( prev_item );
+    ret_val = ((FType *)curr_list)->insert( datum );
+    base_tail_unhit( curr_tail );
+    return( ret_val );
 };
 
 template<class Type, class FType, class LType>
-void WCValListIterBase<Type,FType,LType>::append( Type& datum ) {
-    WCSLink * curr_tail = base_tail_hit( this, curr_item );
-    ((FType *)curr_list)->insert( datum );
-    base_tail_unhit( this, curr_tail );
+WCbool WCValListIterBase<Type,FType,LType>::append( Type& datum ) {
+    if( ( curr_list == 0 )||( curr_item == 0 ) ) {
+	iter_undefined();
+	return( FALSE );
+    }
+    WCbool ret_val;
+    if( curr_item == base_get_tail() ) {
+	ret_val = ((FType *)curr_list)->append( datum );
+    } else {
+	WCSLink * curr_tail = base_tail_hit( curr_item );
+	ret_val = ((FType *)curr_list)->insert( datum );
+	base_tail_unhit( curr_tail );
+    }
+    return( ret_val );
 };
 
 

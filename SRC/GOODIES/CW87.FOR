@@ -27,7 +27,7 @@
       fp_cw = _control87( 0, 0 )
 
       bits = IAND( fp_cw, MCW_EM )
-      print '(1x,a,1x,z4)', 'Interrupt Exception Masks', bits
+      print '(a,1x,z4)', 'Interrupt Exception Mask', bits
       i = 0
       if( IAND(fp_cw, EM_INVALID) .eq. 0 ) i = 1
       print *, '  Invalid Operation exception', status(i)

@@ -19,6 +19,11 @@ typedef int             WCbool;
     #define FALSE       ((WCbool)0)
 #endif
 
+#ifndef _SIZE_T_DEFINED_
+#define _SIZE_T_DEFINED_
+ typedef unsigned size_t;	
+#endif
+
 
 #define _WCDEFS_H_INCLUDED
 #endif

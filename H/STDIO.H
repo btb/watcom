@@ -172,6 +172,7 @@ extern int	_vbprintf( char *__s, unsigned int __bufsize, const char *__format, _
 #define feof(fp)	((fp)->_flag & _EOF)
 #define ferror(fp)	((fp)->_flag & _SFERR)
 #define fileno(fp)	((fp)->_handle)
+#define _fileno(fp)	((fp)->_handle)
 #if defined(__SW_BD) || defined(__SW_BM)
 #define getc(fp)	fgetc(fp)
 #define putc(c,fp)	fputc(c,fp)

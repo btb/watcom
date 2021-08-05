@@ -33,6 +33,7 @@ class WCValSList : public WCValListBase< Type,
                    WCIsvSListBase<WCNIsvSLink<Type> >, WCNIsvSLink<Type> > {
 public:
     inline WCValSList() {};
+
     inline ~WCValSList() {};
 
     inline WCValSList( const WCValSList & olist ) {
@@ -63,6 +64,7 @@ class WCValDList : public WCValListBase<Type,
                    WCIsvDListBase<WCNIsvDLink<Type> >, WCNIsvDLink<Type> > {
 public:
     inline WCValDList() {};
+
     inline ~WCValDList() {};
 
     inline WCValDList( const WCValDList & olist ) {
@@ -92,6 +94,7 @@ template<class Type>
 class WCPtrSList : public WCPtrListBase<Type, WCValSList<Type *> > {
 public:
     inline WCPtrSList() {};
+
     inline ~WCPtrSList() {};
 
     inline WCPtrSList( const WCPtrSList & olist ) {
@@ -121,6 +124,7 @@ template<class Type>
 class WCPtrDList : public WCPtrListBase<Type, WCValDList<Type *> > {
 public:
     inline WCPtrDList() {};
+
     inline ~WCPtrDList() {};
 
     inline WCPtrDList( const WCPtrDList & olist ) {

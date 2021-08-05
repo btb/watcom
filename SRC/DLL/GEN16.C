@@ -30,14 +30,24 @@
 #define DO_16BIT_TEST
 
 typedef long (FAR PASCAL *FARPROC2)();
-typedef long (FAR CDECL *FARPROC2C)();
+typedef long (FAR PASCAL *FARPROC2_Lib1)( WORD, LONG, WORD, WORD, LONG );
+typedef long (FAR PASCAL *FARPROC2_WIN386_Lib1)( WORD, DWORD, WORD, int );
+typedef long (FAR PASCAL *FARPROC2_WIN386_Lib2)( DWORD, WORD, int );
+typedef long (FAR PASCAL *FARPROC2_WIN386_Lib3)( LPSTR, WORD, WORD, DWORD, WORD, DWORD, int );
+typedef long (FAR PASCAL *FARPROC2_WIN386_WEP)( int );
+#ifdef __cplusplus
+  typedef long (FAR CDECL *FARPROC2C)(...);
+#else
+  typedef long (FAR CDECL *FARPROC2C)();
+#endif
 
 int PASCAL WinMain( HANDLE hInstance,
 		    HANDLE hPrevInstance,
 		    LPSTR lpCmdLine,
 		    int nCmdShow )
 {
-  FARPROC2 fp, fp32WEP;
+  FARPROC2 fp;
+  FARPROC2_WIN386_WEP fp32WEP;
   FARPROC2C fpc;
   HANDLE hlib16, hlib32;
   DWORD cb;
@@ -51,7 +61,7 @@ int PASCAL WinMain( HANDLE hInstance,
   fp = (FARPROC2) GetProcAddress( hlib16, "Lib1" );
   fpc = (FARPROC2C) GetProcAddress( hlib16, "_Lib2" );
 
-  cb = fp( 0x1, 0x11110000, 0x1100, 0x10, 0x22222222 );
+  cb = (*(FARPROC2_Lib1)fp)( 0x1, 0x11110000, 0x1100, 0x10, 0x22222222 );
   #ifdef __cplusplus
   {
     ostrstream sout( buf, sizeof( buf ) );
@@ -82,9 +92,9 @@ int PASCAL WinMain( HANDLE hInstance,
    */
   hlib32 = LoadLibrary( "dll32.dll" );
   fp = (FARPROC2) GetProcAddress( hlib32, "Win386LibEntry" );
-  fp32WEP = (FARPROC2) GetProcAddress( hlib32, "WEP" );
+  fp32WEP = (FARPROC2_WIN386_WEP) GetProcAddress( hlib32, "WEP" );
 
-  cb = fp( 0x666, 0x77777111, 0x6969, DLL_1 );
+  cb = (*(FARPROC2_WIN386_Lib1)fp)( 0x666, 0x77777111, 0x6969, DLL_1 );
   #ifdef __cplusplus
   {
     ostrstream sout( buf, sizeof( buf ) );
@@ -96,7 +106,7 @@ int PASCAL WinMain( HANDLE hInstance,
     MessageBox( NULL, buf, "Gen16", MB_OK | MB_TASKMODAL );
   #endif
 
-  cb = fp( 0x12345678, 0x8888, DLL_2 );
+  cb = (*(FARPROC2_WIN386_Lib2)fp)( 0x12345678, 0x8888, DLL_2 );
   #ifdef __cplusplus
   {
     ostrstream sout( buf, sizeof( buf ) );
@@ -108,7 +118,7 @@ int PASCAL WinMain( HANDLE hInstance,
     MessageBox( NULL, buf, "Gen16", MB_OK | MB_TASKMODAL );
   #endif
 
-  cb = fp( (char far *) "A Test String", 1, 2 , 0xabcddcba, 3,
+  cb = (*(FARPROC2_WIN386_Lib3)fp)( (char far *) "A Test String", 1, 2 , 0xabcddcba, 3,
 	      0x12344321, DLL_3 );
   #ifdef __cplusplus
   {

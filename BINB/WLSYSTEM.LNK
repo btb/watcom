@@ -26,6 +26,7 @@ system begin win386
     option osname='Windows 32-bit'
     libpath %WATCOM%\lib386
     libpath %WATCOM%\lib386\win
+    disable 62	# export and import not valid warning.
     format phar rex
 end
 system begin os2
@@ -128,6 +129,13 @@ system begin nt
     libpath %WATCOM%\lib386\nt
     format windows nt ^
     runtime console
+end
+system begin tnt
+    option osname='Phar Lap TNT dos style'
+    libpath %WATCOM%\lib386
+    libpath %WATCOM%\lib386\dos
+    format windows nt tnt ^
+    runtime dosstyle
 end
 system begin nt_win
     option osname='Windows NT windowed'

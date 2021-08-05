@@ -13,7 +13,6 @@
 
 
 
-
 //
 //  The WCIsvListBase class is used as a basis for intrusive lists.
 //  It provides the common data and base functionality.  The WCListExcept
@@ -32,17 +31,23 @@ protected:
     WCSLink *       tail;
     int             entry_count;
 
-    static void base_insert( WCIsvListBase * const, WCSLink * const );
-    static WCSLink * base_next( const WCIsvListBase * const, WCSLink *, WCbool );
-    static int base_index_check( const WCIsvListBase * const, int );
-    static WCSLink * base_sget( WCIsvListBase * const, int );
-    static WCDLink * base_dget( WCIsvListBase * const, int );
-    static WCSLink * base_bfind( const WCIsvListBase * const, int );
-    static WCSLink * base_sfind( const WCIsvListBase * const, int );
-    static WCDLink * base_dfind( const WCIsvListBase * const, int );
-    static WCbool base_contains( const WCIsvListBase * const, WCSLink * const );
-    static void base_clear( WCIsvListBase * const );
-    static void base_destroy( WCIsvListBase * const );
+    void            base_insert( WCSLink * const );
+    WCSLink *       base_next( WCSLink *, WCbool ) const;
+    int             base_index_check( int ) const;
+    WCSLink * 	    base_sget( int );
+    WCDLink *       base_dget( int );
+    WCSLink *       base_bfind( int ) const;
+    WCSLink *       base_sfind( int ) const;
+    WCDLink *       base_dfind( int ) const;
+    WCbool          base_contains( WCSLink * const ) const;
+    void            base_clear( void );
+    void            base_destroy( void );
+    void	    base_empty_list( void ) const;
+    void            base_not_empty( void );
+    void	    base_out_of_memory( void ) const;
+    void	    base_range_bad( void ) const;
+//    WCSLink *	    WCListNew(  );
+    inline virtual void	WCListDelete( WCSLink * datum ){ delete datum; };
 
 public:
     inline WCIsvListBase() : tail(0), entry_count(0) {};
@@ -50,7 +55,6 @@ public:
 
     friend class WCListIterBase;
 };
-
 
 
 
@@ -68,8 +72,8 @@ class WCIsvSListBase : public WCIsvListBase {
 protected:
     void            clear();
     void            clearAndDestroy();
-    void            insert( WCSLink * const );
-    void            append( WCSLink * const );
+    WCbool          insert( WCSLink * const );
+    WCbool          append( WCSLink * const );
     WCSLink *       get( int = 0 );
     WCSLink *       find( int = 0 ) const;
     WCSLink *       findLast() const;
@@ -79,6 +83,10 @@ protected:
     void            forAll( void (*)( Type *, void * ), void *);
 
 public:
+    inline WCIsvSListBase( void * (*)( size_t )
+                , void (*)( void *, size_t )
+		) { };
+
     inline WCIsvSListBase() {};
     inline virtual ~WCIsvSListBase() = 0;
 };
@@ -88,62 +96,67 @@ inline WCIsvSListBase<Type>::~WCIsvSListBase() {};
 
 template<class Type>
 inline void WCIsvSListBase<Type>::clear() {
-    base_clear( this );
+    base_clear();
 };
 
 template<class Type>
 inline void WCIsvSListBase<Type>::clearAndDestroy() {
-    base_destroy( this );
+    base_destroy();
 };
 
 template<class Type>
-inline void WCIsvSListBase<Type>::insert( WCSLink * const datum ) {
-    base_insert( this, datum );
+inline WCbool WCIsvSListBase<Type>::insert( WCSLink * const datum ) {
+    base_insert( datum );
+    return( TRUE );
 };
 
 template<class Type>
-inline void WCIsvSListBase<Type>::append( WCSLink * const datum ) {
+inline WCbool WCIsvSListBase<Type>::append( WCSLink * const datum ) {
     insert( datum );
-    this->tail = datum;
+    tail = datum;
+    return( TRUE );
 };
 
 template<class Type>
 inline WCSLink * WCIsvSListBase<Type>::get( int index ) {
-    return( base_sget( this, index ) );
+    return( base_sget( index ) );
 };
 
 template<class Type>
 inline WCSLink * WCIsvSListBase<Type>::find( int index ) const {
-    return( base_sfind( this, index ) );
+    return( base_sfind( index ) );
 };
 
 template<class Type>
 inline WCSLink * WCIsvSListBase<Type>::findLast() const {
-    return( this->tail );
+    if( tail == 0 ) {
+	base_empty_list();
+    }
+    return( tail );
 };
 
 template<class Type>
 inline WCbool WCIsvSListBase<Type>::contains( WCSLink * const datum ) const {
-    return( base_contains( this, datum ) );
+    return( base_contains( datum ) );
 };
 
 template<class Type>
 inline WCbool WCIsvSListBase<Type>::isEmpty() const {
-    return( this->tail == 0 );
+    return( tail == 0 );
 };
 
 template<class Type>
 inline int WCIsvSListBase<Type>::entries() const {
-    return( this->entry_count );
+    return( entry_count );
 };
 
 template<class Type>
 void WCIsvSListBase<Type>::forAll(
                     register void (* func)( Type *, void * ), void * datum ) {
-    Type * rover = (Type *)base_next( this, rover, TRUE );
+    Type * rover = (Type *)base_next( rover, TRUE );
     while( rover != 0 ) {
         (*func)( rover, datum );
-        rover = (Type *)base_next( this, rover, FALSE );
+        rover = (Type *)base_next( rover, FALSE );
     } 
 };
 
@@ -163,8 +176,8 @@ class WCIsvDListBase : public WCIsvListBase {
 protected:
     void            clear();
     void            clearAndDestroy();
-    void            insert( WCDLink * const );
-    void            append( WCDLink * const );
+    WCbool          insert( WCDLink * const );
+    WCbool          append( WCDLink * const );
     WCDLink *       get( int = 0 );
     WCDLink *       find( int = 0 ) const;
     WCDLink *       findLast() const;
@@ -174,7 +187,11 @@ protected:
     void            forAll( void (*)( Type *, void * ), void *);
 
 public:
+    inline WCIsvDListBase( void * (*)( size_t )
+                , void (*)( void *, size_t )
+		) { };
     inline WCIsvDListBase() {};
+
     inline virtual ~WCIsvDListBase() = 0;
 };
 
@@ -183,67 +200,75 @@ inline WCIsvDListBase<Type>::~WCIsvDListBase() {};
 
 template<class Type>
 inline void WCIsvDListBase<Type>::clear() {
-    base_clear( this );
+    base_clear();
 };
 
 template<class Type>
 inline void WCIsvDListBase<Type>::clearAndDestroy() {
-    base_destroy( this );
+    base_destroy();
 };
 
 template<class Type>
-void WCIsvDListBase<Type>::insert( WCDLink * const datum ) {
-    WCbool empty_list = (this->tail == 0);
-    base_insert( this, datum );
-    if( !empty_list ) {
-        datum->prev.link = this->tail;
+WCbool WCIsvDListBase<Type>::insert( WCDLink * const datum ) {
+    WCbool empty_list = (tail == 0);
+    base_insert( datum );
+    if( empty_list ) {
+	datum->prev.link = datum;
+    } else {
+        datum->prev.link = tail;
         ((WCDLink *)datum->link)->prev.link = datum;
     }
+    return( TRUE );
 };
 
 template<class Type>
-inline void WCIsvDListBase<Type>::append( WCDLink * const datum ) {
+WCbool WCIsvDListBase<Type>::append( WCDLink * const datum ) {
     insert( datum );
-    this->tail = datum;
+    tail = datum;
+    return( TRUE );
 };
+
 
 template<class Type>
 inline int WCIsvDListBase<Type>::entries() const {
-    return( this->entry_count );
+    return( entry_count );
 };
 
 template<class Type>
 inline WCDLink * WCIsvDListBase<Type>::get( int index ) {
-    return( base_dget( this, index ) );
+    return( base_dget( index ) );
 };
 
 template<class Type>
 inline WCDLink * WCIsvDListBase<Type>::find( int index ) const {
-    return( base_dfind( this, index ) );
+    return( base_dfind( index ) );
 };
 
 template<class Type>
 inline WCDLink * WCIsvDListBase<Type>::findLast() const {
-    return( (WCDLink *)this->tail );
+    if( tail == 0 ) {
+	base_empty_list();
+    }
+    return( (WCDLink *)tail );
 };
 
 template<class Type>
 inline WCbool WCIsvDListBase<Type>::contains( WCDLink * const datum ) const {
-    return( base_contains( this, datum ) );
+    return( base_contains( datum ) );
 };
 
 template<class Type>
 inline WCbool WCIsvDListBase<Type>::isEmpty() const {
-    return( this->tail == 0 );
+    return( tail == 0 );
 };
 
 template<class Type>
 void WCIsvDListBase<Type>::forAll(
                     register void (* func)( Type *, void * ), void * datum ) {
-    Type * rover = (Type *)base_next( this, rover, TRUE );
+    Type * rover = (Type *)base_next( rover, TRUE );
     while( rover != 0 ) {
         (*func)( rover, datum );
-        rover = (Type *)base_next( this, rover, FALSE );
+        rover = (Type *)base_next( rover, FALSE );
     } 
 };
 
@@ -267,12 +292,15 @@ void WCIsvDListBase<Type>::forAll(
 template<class Type, class FType, class LType >
 class WCValListBase : public FType {
 protected:    
+    LType * WCListNew( const Type& datum );
+    virtual void WCListDelete( WCSLink * );
+
     void base_construct( const WCValListBase * );
     void base_assign( const WCValListBase * );
 
 public:
     inline WCValListBase() {};
-    inline virtual ~WCValListBase() = 0;
+    virtual ~WCValListBase() = 0;
 
     inline void clear()  {
         FType::clearAndDestroy();
@@ -280,14 +308,6 @@ public:
 
     inline void clearAndDestroy()  {
         FType::clearAndDestroy();
-    };
-
-    inline void insert( const Type& datum )  {
-        FType::insert( new LType( datum ) );
-    };
-
-    inline void append( const Type& datum )  {
-        FType::append( new LType( datum ) );
     };
 
     inline WCbool isEmpty() const {
@@ -303,21 +323,32 @@ public:
     Type find( int = 0 ) const;
     Type findLast() const;
     void forAll( void (*)( Type, void * ), void *);
+    WCbool insert( const Type& datum );
+    WCbool append( const Type& datum );
 };
 
-template<class Type, class FType, class LType>
-inline WCValListBase<Type,FType,LType>::~WCValListBase() {};
 
+template<class Type, class FType, class LType>
+LType * WCValListBase<Type,FType,LType>::WCListNew( const Type& datum ){
+    return( new LType( datum ) );
+}
+
+
+template<class Type, class FType, class LType>
+void WCValListBase<Type,FType,LType>::WCListDelete( WCSLink * old_link ){
+    delete old_link;
+}
+	
 
 template<class Type, class FType, class LType>
 void WCValListBase<Type,FType,LType>::base_construct(
                              const WCValListBase<Type,FType,LType> * olist ) {
-    LType * rover = (LType *)FType::base_next(
-                             (const WCValListBase * const)olist, rover, TRUE );
+    
+    WCListExcept::base_construct( olist );
+    LType * rover = (LType *)( olist->base_next( rover, TRUE ) );
     while( rover != 0 ) {
         append( rover->data );
-        rover = (LType *)FType::base_next( (const WCValListBase * const)olist,
-                                           rover, FALSE );
+        rover = (LType *)( olist->base_next( rover, FALSE ) );
     } 
 };
 
@@ -326,8 +357,41 @@ template<class Type, class FType, class LType>
 void WCValListBase<Type,FType,LType>::base_assign(
                               const WCValListBase<Type,FType,LType> * olist ) {
     if( this != (WCValListBase * const)olist ) {
-        FType::base_destroy( this );
+        base_destroy();
         base_construct( olist );
+    }
+};
+
+
+template<class Type, class FType, class LType>
+WCValListBase<Type,FType,LType>::~WCValListBase() {
+    if( tail != 0 ) {
+	base_not_empty();
+	base_destroy();
+    }
+};
+
+
+template<class Type, class FType, class LType>
+WCbool WCValListBase<Type,FType,LType>::insert( const Type& datum ) {
+    LType * new_link = WCListNew( datum );
+    if( new_link != 0 ) {
+	return( FType::insert( new_link ) );
+    } else {
+	base_out_of_memory();
+	return( FALSE );
+    }
+};
+
+
+template<class Type, class FType, class LType>
+WCbool WCValListBase<Type,FType,LType>::append( const Type& datum ) {
+    LType * new_link = WCListNew( datum );
+    if( new_link != 0 ) {
+	return( FType::append( new_link ) );
+    } else {
+	base_out_of_memory();
+	return( FALSE );
     }
 };
 
@@ -335,7 +399,7 @@ void WCValListBase<Type,FType,LType>::base_assign(
 template<class Type, class FType, class LType>
 WCbool WCValListBase<Type,FType,LType>::contains(
                                         const Type & lookup_data ) const {
-    LType * rover = (LType *)FType::base_next( this, rover, TRUE );
+    LType * rover = (LType *)base_next( rover, TRUE );
     if( rover == 0 ) {
         return( FALSE );
     }
@@ -343,7 +407,7 @@ WCbool WCValListBase<Type,FType,LType>::contains(
         if( rover->data == lookup_data ) {
             return( TRUE );
         }
-        rover = (LType *)FType::base_next( this, rover, FALSE );
+        rover = (LType *)base_next( rover, FALSE );
     } 
     return( FALSE );
 };
@@ -352,35 +416,50 @@ WCbool WCValListBase<Type,FType,LType>::contains(
 template<class Type, class FType, class LType>
 Type WCValListBase<Type,FType,LType>::get( int index ) {
     LType * ret_obj = (LType *)FType::get( index );
-    Type ret_val = ret_obj->data;
-    delete ret_obj;
-    return( ret_val );
+    if( ret_obj == 0 ) {
+	Type ret_val;
+	return( ret_val );
+    } else {
+	Type ret_val = ret_obj->data;
+	WCListDelete( ret_obj );
+	return( ret_val );
+    }
 };
 
 
 template<class Type, class FType, class LType>
 Type WCValListBase<Type,FType,LType>::find( int index ) const {
     LType * ret_obj = (LType *)FType::find( index );
-    Type ret_val = ret_obj->data;
-    return( ret_val );
+    if( ret_obj == 0 ) {
+	Type ret_val;
+	return( ret_val );
+    } else {
+	Type ret_val = ret_obj->data;
+	return( ret_val );
+    }
 };
 
 
 template<class Type, class FType, class LType>
 Type WCValListBase<Type,FType,LType>::findLast() const {
     LType * ret_obj = (LType *)FType::findLast();
-    Type ret_val = ret_obj->data;
-    return( ret_val );
+    if( ret_obj == 0 ) {
+	Type ret_val;
+	return( ret_val );
+    } else {
+	Type ret_val = ret_obj->data;
+	return( ret_val );
+    }
 };
 
 
 template<class Type, class FType, class LType>
 void WCValListBase<Type,FType,LType>::forAll(
                       register void (* func)( Type, void * ), void * datum ) {
-    LType * rover = (LType *)FType::base_next( this, rover, TRUE );
+    LType * rover = (LType *)base_next( rover, TRUE );
     while( rover != 0 ) {
         (*func)( rover->data, datum );
-        rover = (LType *)FType::base_next( this, rover, FALSE );
+        rover = (LType *)base_next( rover, FALSE );
     } 
 };
 
@@ -400,18 +479,19 @@ template<class Type, class FType>
 class WCPtrListBase : public FType {
 public:
     inline WCPtrListBase() {};
+
     inline virtual ~WCPtrListBase() = 0;
 
     inline void clear() {
         FType::clear();
     };
 
-    inline void insert( Type * ptr )  {
-        FType::insert( ptr );
+    inline WCbool insert( Type * ptr )  {
+        return( FType::insert( ptr ) );
     };
 
-    inline void append( Type * ptr )  {
-        FType::append( ptr );
+    inline WCbool append( Type * ptr )  {
+        return( FType::append( ptr ) );
     };
 
     inline WCbool contains( Type * ptr ) const {

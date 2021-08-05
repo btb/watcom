@@ -5,7 +5,9 @@
 #include <time.h>
 #ifdef __OS2__
  #define INCL_VIO
+extern "C" {
  #include <os2.h>
+};
 #else
  #include <dos.h>
 #endif

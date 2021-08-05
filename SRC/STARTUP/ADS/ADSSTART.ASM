@@ -528,10 +528,10 @@ endif	; ACAD
 
 	public	 __exit_with_msg
 
-; input: EAX - pointer to message to print
-;	 EDX - exit code
-
+; must be #pragma aborts
  __exit_with_msg:
+	pop	eax			; parm 1 (msg)
+	pop	edx			; parm 2 (rc)
 	push	edx			; save return code
 	push	eax			; save address of msg
 	mov	edx,offset ConsoleName

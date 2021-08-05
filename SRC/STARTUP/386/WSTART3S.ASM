@@ -57,6 +57,9 @@
    
    
    
+   
+   
+   
 
    
    
@@ -656,8 +659,15 @@ donecpy:pop	es
 
 ;;	 
 ;;	_ASTACKPTR = (char *)alloca( _ASTACKSIZ ) + _ASTACKSIZ;
-	mov	__ASTACKPTR,esp		; save address of alternate stack
-	sub	esp,__ASTACKSIZ		; allocate alternate stack for F77
+	cmp	byte ptr __inDLL,0	; if in DLL
+	je	short not_dll		; then
+	  mov	eax, _STACKLOW		; - put alternate stack on bottom
+	  add	eax,__ASTACKSIZ		; - ...
+	  mov	__ASTACKPTR,eax		; - ...
+	  jmp	short not_dll2		; else
+not_dll:mov	__ASTACKPTR,esp		; - save address of alternate stack
+	sub	esp,__ASTACKSIZ		; - allocate alternate stack for F77
+not_dll2:				; endif
 
 	; push parms for WINMAIN
 	mov	ax,hInstance
@@ -685,6 +695,9 @@ _cstart_ endp
 
  __exit  proc far
 public  __exit
+ifdef __3S__
+	pop	eax			; parm 1 (rc)
+endif
 	cmp	byte ptr __inDLL,0	; are we in a DLL?
 	jne	short skip_fini		; skip fini rtns if we are
 	push	eax			; save return value

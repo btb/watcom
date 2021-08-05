@@ -3,7 +3,7 @@
 #include <stddef.h>
 #include <time.h>
 #ifdef __OS2__
- #define INCL_VIO
+ #define INCL_SUB
  #include <os2.h>
 #else
  #include <dos.h>

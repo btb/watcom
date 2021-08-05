@@ -29,7 +29,8 @@ public:
     ~String();                                  // destructor
 
                                                 // conversion operators
-    operator char const * ();                   //   to C string
+    operator char const * ();			//   to C string
+    operator char const * () const;             //   to C string
     operator char () const;                     //   to single character
 
                                                 // assignment operators
@@ -44,7 +45,11 @@ public:
                          size_t __len ) const;
 
     char & operator () ( size_t __pos );        // reference-to-char operator
+    char const & operator ()
+		       ( size_t __pos ) const;  // reference-to-char operator
     char & operator [] ( size_t __pos );        // subscript operator
+    char const & operator []
+		       ( size_t __pos ) const;  // subscript operator
 
                                                 // comparison operators
     friend int operator == ( String const &,
@@ -153,6 +158,10 @@ private:
 };
 
 inline char &String::operator [] ( size_t __pos ) {
+    return( this->operator()( __pos ) );
+}
+
+inline char const &String::operator [] ( size_t __pos ) const {
     return( this->operator()( __pos ) );
 }
 

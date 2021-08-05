@@ -1,0 +1,101 @@
+*$noreference
+
+* MATHCODE.FI
+* This is the include file required to handle math errors.
+
+	integer FUNC_ACOS
+	integer FUNC_ASIN
+	integer FUNC_SQRT
+	integer FUNC_EXP
+	integer FUNC_COSH
+	integer FUNC_SINH
+	integer FUNC_POW
+	integer FUNC_ACOSH
+	integer FUNC_LOG2
+	integer FUNC_LOG
+	integer FUNC_LOG10
+	integer FUNC_ATANH
+	integer FUNC_ATAN2
+	integer FUNC_IPOW
+	integer FUNC_DPOWI
+	integer FUNC_COS
+	integer FUNC_SIN
+	integer FUNC_TAN
+	integer FUNC_Y0
+	integer FUNC_Y1
+	integer FUNC_YN
+
+	parameter ( FUNC_ACOS	= 1 )
+	parameter ( FUNC_ASIN	= 2 )
+	parameter ( FUNC_SQRT	= 3 )
+	parameter ( FUNC_EXP	= 4 )
+	parameter ( FUNC_COSH	= 5 )
+	parameter ( FUNC_SINH	= 6 )
+	parameter ( FUNC_POW	= 7 )
+	parameter ( FUNC_ACOSH	= 8 )
+	parameter ( FUNC_LOG2	= 9 )
+	parameter ( FUNC_LOG	= 10 )
+	parameter ( FUNC_LOG10	= 11 )
+	parameter ( FUNC_ATANH	= 12 )
+	parameter ( FUNC_ATAN2	= 13 )
+	parameter ( FUNC_IPOW	= 14 )
+	parameter ( FUNC_DPOWI	= 15 )
+	parameter ( FUNC_COS	= 16 )
+	parameter ( FUNC_SIN	= 17 )
+	parameter ( FUNC_TAN	= 18 )
+	parameter ( FUNC_Y0	= 19 )
+	parameter ( FUNC_Y1	= 20 )
+	parameter ( FUNC_YN	= 21 )
+
+	integer FUNC_MASK
+	parameter ( FUNC_MASK = '0000001f'x )
+
+* Bits for the type of math errors
+
+	integer M_DOMAIN
+	integer M_SING
+	integer M_OVERFLOW
+	integer M_PLOSS
+	integer M_TLOSS
+	integer M_UNDERFLOW
+
+	parameter ( M_DOMAIN	= '00000040'x )
+	parameter ( M_SING	= '00000080'x )
+	parameter ( M_OVERFLOW	= '00000100'x )
+	parameter ( M_PLOSS	= '00000200'x )
+	parameter ( M_TLOSS	= '00000400'x )
+	parameter ( M_UNDERFLOW = '00000800'x )
+
+	integer SIGFPE
+	parameter ( SIGFPE	= 2 )
+
+	integer FPE_OVERFLOW
+	integer FPE_UNDERFLOW
+	integer FPE_ZERODIVIDE
+	integer FPE_SQRTNEG
+
+	parameter ( FPE_OVERFLOW	= '00000084'x )
+	parameter ( FPE_UNDERFLOW	= '00000085'x )
+	parameter ( FPE_ZERODIVIDE	= '00000083'x )
+	parameter ( FPE_SQRTNEG 	= '00000088'x )
+
+	integer CP_TERMINATE
+	integer EX_Z_2_NOT_POS
+	integer EX_NOT_INT_ARG
+	integer KO_FDIV_ZERO
+	integer KO_FOVERFLOW
+	integer KO_FUNDERFLOW
+	integer LI_ARG_NEG
+	integer LI_ARG_LE_ONE
+	integer LI_ARG_ZERO
+
+	parameter ( CP_TERMINATE	= 0 )
+	parameter ( EX_Z_2_NOT_POS	= 256 )
+	parameter ( EX_NOT_INT_ARG	= 257 )
+	parameter ( KO_FDIV_ZERO	= 1024 )
+	parameter ( KO_FOVERFLOW	= 1025 )
+	parameter ( KO_FUNDERFLOW	= 1026 )
+	parameter ( LI_ARG_NEG		= 1282 )
+	parameter ( LI_ARG_LE_ONE	= 1281 )
+	parameter ( LI_ARG_ZERO 	= 1283 )
+*$reference

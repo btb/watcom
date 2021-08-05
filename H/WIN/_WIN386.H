@@ -43,6 +43,7 @@ typedef void __far *REALFARPROC;
 #define DialogBoxIndirectParam 		_Cover_DialogBoxIndirectParam
 #define EnumChildWindows 		_Cover_EnumChildWindows
 #define EnumFonts 			_Cover_EnumFonts
+#define EnumFontFamilies		_Cover_EnumFontFamilies
 #define EnumMetaFile 			_Cover_EnumMetaFile
 #define EnumObjects 			_Cover_EnumObjects
 #define EnumProps 			_Cover_EnumProps
@@ -170,6 +171,7 @@ int API _16Escape(HDC, int, int, LPSTR, LPSTR);
 int API _Cover_Escape(HDC, int, int, LPSTR, LPSTR);
 int API _16EnumFonts(HDC, LPSTR, FARPROC, LPSTR);
 int API _Cover_EnumFonts(HDC, LPSTR, FARPROC, LPSTR);
+int API _Cover_EnumFontFamilies(HDC, LPSTR, FARPROC, LPSTR);
 int API _16EnumObjects(HDC, int, FARPROC, LPSTR);
 int API _Cover_EnumObjects(HDC, int, FARPROC, LPSTR);
 int API _16GetTextFace(HDC, int, LPSTR);
@@ -555,10 +557,19 @@ UINT WINAPI _Cover_EnumSymbols(LPSYG, WORD, ENUMPROC, LPVOID);
 #define mmioInstallIOProc _Cover_mmioInstallIOProc
 #define mciSetYieldProc _Cover_mciSetYieldProc
 #define timeSetEvent _Cover_timeSetEvent
+#define waveOutOpen _Cover_waveOutOpen
+#define waveInOpen _Cover_waveInOpen
 LPMMIOPROC WINAPI _Cover_mmioInstallIOProc(FOURCC fccIOProc, LPMMIOPROC pIOProc, DWORD dwFlags);
 BOOL WINAPI _Cover_mciSetYieldProc(UINT uDeviceID, YIELDPROC fpYieldProc, DWORD dwYieldData);
 UINT WINAPI _Cover_timeSetEvent(UINT uDelay, UINT uResolution, LPTIMECALLBACK lpFunction, DWORD dwUser, UINT uFlags);
+UINT WINAPI _Cover_waveInOpen(HWAVEIN *lphWaveIn, UINT uDeviceID,
+    const WAVEFORMAT *lpFormat, DWORD dwCallback, DWORD dwInstance, DWORD dwFlags);
+UINT WINAPI _Cover_waveOutOpen(HWAVEOUT *lphWaveOut, UINT uDeviceID,
+    const WAVEFORMAT *lpFormat, DWORD dwCallback, DWORD dwInstance, DWORD dwFlags);
 #endif
+UINT WINAPI _16waveOutPrepareHeader(HWAVEOUT hWaveOut,DWORD,UINT uSize);
+UINT WINAPI _16waveOutUnprepareHeader(HWAVEOUT hWaveOut,DWORD,UINT uSize);
+UINT WINAPI _16waveOutWrite(HWAVEOUT hWaveOut, DWORD,UINT uSize);
 #endif
 
 #ifdef INCLUDE_TOOLHELP_H
@@ -618,7 +629,6 @@ typedef void * HINDIR;
 #define GETPROC_PENWIN_ENUMPROC 15
 #define GETPROC_MMSYSTEM_MMIOPROC 16
 #define GETPROC_MMSYSTEM_YIELDPROC 17
-#define GETPROC_MMSYSTEM_TIMECALLBACK 18
 #define GETPROC_OLE_OV_QUERYPROTOCOL 19
 #define GETPROC_OLE_OV_RELEASE 20
 #define GETPROC_OLE_OV_SHOW 21

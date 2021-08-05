@@ -2,18 +2,22 @@
 *
 * Synopsis:	Set the colours for the various debugger windows.
 *
+*		0    Monochrome Display Adaptor
 *		1-3  IBM compatible personal computer
 *		4    black & white monitor
 *		5-7  NEC PC-9801 personal computer
 *		8    Fujitsu FM-R personal computer
 *
-if _dbg@dbg$monitor <= 3 {
+if _dbg@dbg$monitor == 0 {
+    * nothing to do
+} elseif _dbg@dbg$monitor <= 3 {
     paint   *	title	 bright blue, white;
     paint   *	gadget	 bright blue, white;
     paint   *	plain	 black, white;
     paint   *	active	 black, red;
     paint   *	standout black, cyan
 } elseif _dbg@dbg$monitor == 4 {
+    * nothing to do
 } elseif _dbg@dbg$monitor <= 7 {
     paint   *	title	 green, reverse;
     paint   *	gadget	 green, reverse;

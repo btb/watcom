@@ -15,7 +15,7 @@ set radix	/0   8
 * if dbg$os == 6, we're debugging a QNX program and want tab stops set to 4
 if _dbg@dbg$os==6   {set tab 4}
 
-invoke colours
+if _dbg@dbg$monitor > 0 {invoke colours}
 
 do _dbg@dbg$dvsr = 0n5
 if _dbg@dbg$bottom >= 0n32 { /_dbg@dbg$dvsr = 0n4 }

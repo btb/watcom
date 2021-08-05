@@ -43,7 +43,7 @@ COMMAND LINE
 
           will use cmd.fil to save/restore the internal command buffer.
           
-        Notes for OS/2:
+        Notes for OS/2 1.x:
 
         - OS2EDIT.DLL is also loaded and needs to be in a LIBPATH directory
           (where you keep your other .DLL files)
@@ -54,7 +54,7 @@ COMMAND LINE
         - You may not pass the command line directly to OS2EDIT. You must
           use the environment variable method to pass the command line.
 
-	Notes for OS/2 2.0 and up.
+	Notes for OS/2 2.x.
 
 	- OS22EDIT is not run directly. Instead, change CONFIG.SYS as follows
 
@@ -64,11 +64,16 @@ COMMAND LINE
 
 	  In this case, you must set the OS2EDIT environment variable
 	  in CONFIG.SYS, in order for it to be noticed by OS22EDIT.
+	
+	- Only environment variables set in CONFIG.SYS are available to
+	  OS22EDIT.
 
-	- either OS2EDIT or OS22EDIT may be used with OS/2 2.0
+        - You may not pass the command line directly to OS22EDIT. You must
+          use the environment variable method to pass the command line.
+	  This environment variable must be set in CONFIG.SYS.
 
-	- only OS22EDIT may be used with OS/2 2.1
 
+	- OS2EDIT.DLL is not needed
 
 The default alias file name is
 

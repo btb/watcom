@@ -63,9 +63,6 @@ typedef struct  {
 
 #pragma intrinsic(abs,div,labs,ldiv,_lrotl,_lrotr,_rotl,_rotr)
 
-#pragma aux	abort	aborts;
-#pragma aux	exit	aborts;
-
 #endif
 
 extern void abort(
@@ -264,6 +261,11 @@ extern int wctomb(
 
 
 #define atof(p) strtod(p,(char **)NULL)
+
+#pragma aux	abort	aborts;
+#pragma aux	exit	aborts;
+
+extern int _fmode;  /* default file translation mode */
 
 #define _STDLIB_H_INCLUDED
 #ifdef __cplusplus

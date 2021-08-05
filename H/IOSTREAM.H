@@ -166,6 +166,8 @@ public:
     static fmtflags bitalloc();
     static int      xalloc();
 
+    static void sync_with_stdio( void ) {};	// obsolete function
+
     __lock *__i_lock;	     // ios data member operations
     static __lock *__x_lock; // xalloc/bitalloc operations
 

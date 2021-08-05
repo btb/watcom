@@ -10,9 +10,9 @@
 ; startup code for WATCOM C/C++32 Version 9.5
 ;
 ;	This must be assembled using the following command:
-;		386asm cstart
+;		386asm cstart -twocase
 ;	To create startup code for Ergo's DPMI DOS extender
-;		386asm cstart -define ERGO_DPMI
+;		386asm cstart -twocase -define ERGO_DPMI
 ;
 ;   NOTE: All C library data should be defined in CRWDATA.ASM -- That way
 ;	  it's also available to ADS applications (who use ADSSTART.ASM).
@@ -198,7 +198,7 @@ else
 ;
 ;	get DOS & Extender version number
 ;
-	mov	ebx,'PHAR'		; set ebx to 0
+	mov	ebx,'PHAR'		; set ebx to "PHAR"
 	sub	eax,eax 		; set eax to 0
 	mov	ah,30h
 	int	21h			; modifies eax,ebx,ecx,edx
@@ -212,6 +212,22 @@ else
 	jne	not_pharlap		; then its pharlap
 	sub	bl,'0'			; - save major version number
 	mov	al,bl			; - (was in ascii)
+;+
+;	following code added to support TNT Dos extender v6.0
+;
+	push	eax			; - save version number
+	mov	es,__psp		; - point to PSP
+	mov	ebx,es:[5Ch]		; - get highest addr used
+	add	ebx,000000FFFh		; - round up to 4K boundary
+	and	ebx,0FFFFF000h		; - ...
+	mov	__curbrk,ebx		; - set first available memory locn
+	shr	ebx,12			; - calc. # of 4k pages
+	mov	ax,ds			; - set ES=data segment
+	mov	es,ax			; - ...
+	mov	ah,4Ah			; - shrink block to minimum amount
+	int	21h			; - ...
+	pop	eax			; - restore version number
+;-
 	mov	bx,ds			; - get value of Phar Lap data segment
 	mov	cx,ENV_SEG		; - PharLap environment segment
 	jmp	short know_ext1 	; else
@@ -332,7 +348,13 @@ L3:	cmp	byte ptr [esi],0	; end of pgm name ?
 	mov	ecx,offset DGROUP:_end	; end of _BSS segment (start of STACK)
 	mov	edi,offset DGROUP:_edata; start of _BSS segment
 	sub	ecx,edi 		; calc # of bytes in _BSS segment
-	mov	dl,cl			; save bottom 2 bits of count in edx
+	cmp	byte ptr __Extender,X_RATIONAL	; if not Rational DOS extender
+	jne	short zerobss		; then zero whole BSS
+	cmp	ecx,1000h		; if size of BSS <= 4K
+	jbe	short zerobss		; then just zero it
+	mov	ecx,1000h		; only zero first 4K under Rational
+					; DOS extender will zero rest of pages
+zerobss:mov	dl,cl			; save bottom 2 bits of count in edx
 	shr	ecx,2			; calc # of dwords
 	sub	eax,eax 		; zero the _BSS segment
 	rep	stosd			; ...
@@ -353,14 +375,22 @@ _cstart_ endp
 ;	don't touch AL in __exit_, it has the return code
 
 __exit_  proc near
+ifdef __3S__
+	pop	eax			; parm 1 (rc)
+endif
 	jmp	short	ok
 
 	public	__exit_with_msg_
 
+; must be #pragma aborts
+__exit_with_msg_:
+ifdef __3S__
+	pop	eax			; parm 1 (msg)
+	pop	edx			; parm 2 (rc)
+endif
 ; input: EAX - pointer to message to print
 ;	 EDX - exit code
 
-__exit_with_msg_:
 	push	edx			; save return code
 	push	eax			; save address of msg
 	mov	edx,offset ConsoleName

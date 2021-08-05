@@ -16,6 +16,7 @@ extern volatile int errno;
 /*
  * Error codes
  */
+#define EZERO	0	/* No error */
 #define ENOENT	1	/* No such file or directory */
 #define E2BIG	2	/* Arg list too big */
 #define ENOEXEC 3	/* Exec format error */
@@ -36,6 +37,29 @@ extern volatile int errno;
 #define EDEADLOCK 15	/* ... */
 #define EINTR	16	/* interrupt */
 #define ECHILD	17	/* Child does not exist */
+/* POSIX errors */
+#define EAGAIN	18	/* Resource unavailable, try again */
+#define EBUSY	19	/* Device or resource busy */
+#define EFBIG	20	/* File too large */
+#define EIO	21	/* I/O error */
+#define EISDIR	22	/* Is a directory */
+#define ENOTDIR	23	/* Not a directory */
+#define EMLINK	24	/* Too many links */
+#define ENOTBLK	25	/* Block device required */
+#define ENOTTY	26	/* Not a character device */
+#define ENXIO	27	/* No such device or address */
+#define EPERM	28	/* Not owner */
+#define EPIPE	29	/* Broken pipe */
+#define EROFS	30	/* Read-only file system */
+#define ESPIPE	31	/* Illegal seek */
+#define ESRCH	32	/* No such process */
+#define ETXTBSY	33	/* Text file busy */
+#define EFAULT	34	/* Bad address */
+#define ENAMETOOLONG 35	/* Name too long */
+#define ENODEV	36	/* No such device */
+#define ENOLCK	37	/* No locks available in system */
+#define ENOSYS	38	/* Unknown system call */
+#define ENOTEMPTY 39	/* Directory not empty */
 
 #define _ERRNO_H_INCLUDED
 #ifdef __cplusplus

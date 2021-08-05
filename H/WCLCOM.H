@@ -26,8 +26,8 @@
 //  different containers.  In an intrusive container, this class provides
 //  the base for the user defined class of single linked lists.
 //
-//  constructor: set the 'next' link field to point to ourself.  This
-//               sets up a self contained ring list.
+//  constructor: set the 'next' link field to 0 (will be reset when inserted
+//		 into the list)
 //  destructor: nothing needs to be explicitly destroyed in WCSLink.
 //              It is not a pure virtual so that WCDLink can use it
 //              to create the needed back link.
@@ -37,7 +37,7 @@ class WCSLink {
 public:
     WCSLink *       link;
 
-    inline WCSLink() : link( this ) {};
+    inline WCSLink() : link( 0 ) {};
     inline virtual ~WCSLink() {};
 };
 
@@ -61,12 +61,12 @@ class WCDLink : public WCSLink {
 public:
     WCSLink         prev;
 
+
     inline WCDLink() {};
     inline virtual ~WCDLink() = 0;
 };
 
 inline WCDLink::~WCDLink() {};
-
 
 
 
@@ -111,25 +111,34 @@ public:
 //                     by the class destructor, this error can be thrown.
 //      index_range -- if an index value is not valid, this error can
 //                     be thrown.
-//      undef_iter  -- if an iterator does not have a current value, trying
-//                     to obtain a value list item is not well defined.
+//	empty_list  -- thrown on an attempt to find, findLast or get in an
+//		       empty list
+//      out_of_memory -- thrown by insert or append when an attempt to allocate
+//		       memory failed
 //
 
 class WCListExcept {
 private:
     int             exception_flags;
 
+protected:
+    inline void base_construct( const WCListExcept * orig ) {
+	exception_flags = orig->exception_flags;
+    }
+
 public:
     inline WCListExcept() : exception_flags(0) {};
     inline virtual ~WCListExcept() {};
 
     enum wcliststate {                  // Error state
-        all_fine    = 0x0000,           // - no errors
-        not_empty   = 0x0001,           // - list is not empty
-        index_range = 0x0002,           // - index on find is out of range
+        all_fine      = 0x0000,		// - no errors
+        not_empty     = 0x0001,		// - list is not empty on destruction
+        index_range   = 0x0002,		// - index on find is out of range
+        empty_list    = 0x0004,		// - list is empty on find or get
+	out_of_memory = 0x0008,		// - allocation failed
 
         // value to use to check for all errors
-        check_all   = (not_empty|index_range)
+        check_all   = (not_empty|index_range|empty_list|out_of_memory)
     };
     typedef int wclist_state;
 
