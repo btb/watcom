@@ -1,0 +1,18 @@
+* Syntax:	restart
+*
+* Synopsis:	Start the application over again.
+*
+new
+if ?_dbg@nogo || !_dbg@dbg$loaded {
+    * nothing to do
+} elseif ?FMAIN {
+    go FMAIN
+} elseif ?main {
+    go main
+} elseif _dbg@dbg$os == 8 || _dbg@dbg$os == 10 {
+    if ?FWINMAIN {
+	go FWINMAIN
+    } elseif ?WINMAIN {
+	go WINMAIN
+    }
+}

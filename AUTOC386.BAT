@@ -1,0 +1,3 @@
+path M:\WATCOM\bin;M:\WATCOM\binb;M:\WATCOM\binw;M:\WATCOM\bin;M:\WATCOM\binb;M:\MASM611\BIN;M:\MASM611\BINR;M:\DJGPP\BIN;M:\MASM611\BIN;M:\MASM611\BINR;M:\WATCOM\bin;M:\WATCOM\binb;M:\WATCOM\binw;M:\DJGPP\BIN;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\PROGRA~1\CMake\bin
+set include=M:\WATCOM\h;M:\WATCOM\h\win
+set watcom=M:\WATCOM\.

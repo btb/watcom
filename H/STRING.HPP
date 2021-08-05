@@ -1,0 +1,188 @@
+//
+//  string.h	Strings
+//
+//  Copyright by WATCOM International Corp. 1988-1993.  All rights reserved.
+//
+#ifndef _STRING_HPP_INCLUDED
+
+#ifndef __cplusplus
+#error string.hpp is for use with C++
+#endif
+
+#include <ctype.h>
+#include <stddef.h>
+#include <iostream.h>
+
+// Define a typedef for a "C" function
+extern "C" {
+typedef int (*__zapcase_t)( int );
+};
+
+class String {
+public:
+                                                // constructors
+    String();                                   //   default
+    String( String const & );                   //   from another String
+    String( char const * );                     //   from C string
+    String( char );                             //   from single character
+
+    ~String();                                  // destructor
+
+                                                // conversion operators
+    operator char const * ();                   //   to C string
+    operator char () const;                     //   to single character
+
+                                                // assignment operators
+    String & operator = ( String const & );     //   from another String
+    String & operator = ( char const * );       //   from a C string
+
+                                                // append operators
+    String & operator += ( String const & );    //   a String
+    String & operator += ( char const * );      //   a C string
+
+    String operator () ( size_t __pos,          // substring operator
+                         size_t __len ) const;
+
+    char & operator () ( size_t __pos );        // reference-to-char operator
+    char & operator [] ( size_t __pos );        // subscript operator
+
+                                                // comparison operators
+    friend int operator == ( String const &,
+                             String const & );  //   String == String?
+    friend int operator == ( String const &,
+                             char const * );    //   String == C string?
+    friend int operator == ( char const *,
+                             String const & );  //   C string == String?
+
+    friend int operator != ( String const &,
+                             String const & );  //   String != String?
+    friend int operator != ( String const &,
+                             char const * );    //   String != C string?
+    friend int operator != ( char const *,
+                             String const & );  //   C string != String?
+
+    friend int operator < ( String const &,
+                            String const & );   //   String < String?
+    friend int operator < ( String const &,
+                            char const * );     //   String < C string?
+    friend int operator < ( char const *,
+                            String const & );   //   C string < String?
+
+    friend int operator <= ( String const &,
+                             String const & );  //   String <= String?
+    friend int operator <= ( String const &,
+                             char const * );    //   String <= C string?
+    friend int operator <= ( char const *,
+                             String const & );  //   C string <= String?
+
+    friend int operator > ( String const &,
+                            String const & );   //   String > String?
+    friend int operator > ( String const &,
+                            char const * );     //   String > C string?
+    friend int operator > ( char const *,
+                            String const & );   //   C string > String?
+
+    friend int operator >= ( String const &,
+                             String const & );  //   String >= String?
+    friend int operator >= ( String const &,
+                             char const * );    //   String >= C string?
+    friend int operator >= ( char const *,
+                             String const & );  //   C string >= String?
+
+                                                // concatenate string operators
+    friend String operator + ( String &,
+                               String const & );//   String + String
+    friend String operator + ( String &,
+                               char const * );  //   String + C string
+    friend String operator + ( char const *,
+                               String const & );//   C string + String
+
+                                                // input/output operators
+    friend istream & operator >> ( istream &, String & );	// input
+    friend ostream & operator << ( ostream &, String const & ); // output
+
+// Member functions:
+    size_t length() const;                  // length of String
+
+                                            // find differing character loc
+    int match( String const & ) const;      //   search string is a String
+    int match( char const *   ) const;      //   search string is a C string
+
+                                            // find substring location
+    int index( String const &,              //   search string is a String
+               size_t __pos = 0 ) const;
+    int index( char const *,                //   search string is a C string
+               size_t __pos = 0 ) const;
+
+                                            // letter case conversion
+    String upper() const;                   //   to upper case
+    String lower() const;                   //   to lower case
+
+    int operator ! () const;                // invalid String?
+    int valid() const;                      // valid String?
+    friend int valid( String const & );     // valid String?
+
+    int alloc_mult_size() const;            // get string_mult_size
+    int alloc_mult_size( int __mult );      // get/set string_mult_size
+
+private:
+
+    class StringRep {
+    public:
+	size_t  __refcount;
+	size_t  __avail_length;
+	size_t  __used_length;
+	char    __value[1];           // variable length
+    };
+
+    StringRep	*__srep;
+    size_t	__offset;
+    size_t	__slength;
+    char	*__c_string;
+
+    // Memory for StringRep's is allocated in multiples of string_mult_size
+    static size_t __string_mult_size;
+    static char   __ref_char;
+
+    static StringRep *__AllocStringRep( StringRep *, size_t );
+    static int	      __CompareStrings( String const &, String const & );
+    void   __AppendToStringRep( String &, char const *, size_t );
+    void   __FreeStringRep();
+    void   __JoinStrings( char const *, size_t, char const *, size_t );
+    String __ZapCase( __zapcase_t ) const;
+};
+
+inline char &String::operator [] ( size_t __pos ) {
+    return( this->operator()( __pos ) );
+}
+
+inline String String::upper() const {
+    return( __ZapCase( &::toupper ) );
+}
+
+inline String String::lower() const {
+    return( __ZapCase( &::tolower ) );
+}
+
+inline int String::operator ! () const {
+    return( __srep == NULL );
+}
+
+inline int String::valid() const {
+    return( __srep != NULL );
+}
+
+inline int valid( String const &__s ) {
+    return( __s.__srep != NULL );
+}
+
+inline size_t String::length() const {
+    return( __slength );
+}
+
+inline int String::alloc_mult_size() const {
+    return( String::__string_mult_size );
+}
+
+#define _STRING_HPP_INCLUDED
+#endif

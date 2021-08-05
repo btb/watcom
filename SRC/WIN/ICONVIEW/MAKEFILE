@@ -1,0 +1,47 @@
+!include ..\build.mif
+
+!ifeq WIN386 1
+CC = wcc386p
+CFLAGS = -zW -oaxt -d1 -w4 -i..\filedll
+!else
+CC = wccp
+CFLAGS = -zW -oaxt -mc -d1 -w4 -i..\filedll
+!endif
+NAME = view
+
+LNK = $(name).lnk
+
+OBJS = view.obj icon.obj mdi.obj util.obj switch.obj
+
+$(name).exe : $(OBJS) $(name).res $(LNK)
+    wlink @$(LNK)
+!ifeq WIN386 1
+    wbind $(name) -R -30 $(name).res
+!else
+    wrc -30 $(name).res
+    copy /b $(name).exe+$(name).sym
+    del $(name).sym
+!endif
+
+$(name).res : $(name).rc $(name).ico
+    wrc -r -30 $(name).rc
+
+$(LNK) : makefile ..\build.mif
+    %create $(LNK)
+    @%append $(LNK) debug all
+!ifeq WIN386 1
+    @%append $(LNK) sys win386
+    @%append $(LNK) option mindata=100K
+    @%append $(LNK) option maxdata=100K
+!else
+    @%append $(LNK) sys windows
+    @%append $(LNK) option heapsize=1k
+    @%append $(LNK) option symfile = $(name).sym
+    @%append $(LNK) library windows
+!endif
+    @%append $(LNK) option stack=7k
+    @%append $(LNK) name $(name)
+    @for %i in ($(OBJS)) do @%append $(LNK) file %i
+
+.c.obj :
+        $(CC) $(CFLAGS) $[*

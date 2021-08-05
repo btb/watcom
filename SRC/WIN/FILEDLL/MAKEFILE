@@ -1,0 +1,42 @@
+!include ..\build.mif
+DLLNAME = filedll
+DLL = dll
+
+CFLAGS = -zW -ml -zu -w4 -d1 -oaxt
+DLLLNK = $(DLLNAME).lnk
+
+OBJS = filedll.obj
+
+!ifeq WIN386 1
+all: .SYMBOLIC
+    @%NULL
+!endif
+
+$(DLLNAME).dll : $(OBJS) $(DLLLNK) $(DLLNAME).res
+    wlink @$(DLLLNK)
+    rc $(DLLNAME).res
+    @copy /b $(DLLNAME).exe+$(DLLNAME).sym
+    @del $(DLLNAME).dll
+    @rename $(DLLNAME).exe $(DLLNAME).dll
+    @del $(DLLNAME).sym
+    
+$(DLLNAME).res : $(DLLNAME).rc $(DLLNAME).dlg
+    wrc -r -30 $(DLLNAME).rc
+    
+        
+$(DLLLNK) : makefile
+    %create $(DLLLNK)
+    @%append $(DLLLNK) debug all
+    @%append $(DLLLNK) sys windows dll
+    @%append $(DLLLNK) lib clibl
+    @%append $(DLLLNK) lib windows
+    @%append $(DLLLNK) libfile libentry
+    @%append $(DLLLNK) name $(DLLNAME).exe
+    @%append $(DLLLNK) option symfile = $(DLLNAME).sym
+    @%append $(DLLLNK) option heapsize=5k
+    @%append $(DLLLNK) option map
+    @%append $(DLLLNK) option oneautodata
+    @for %i in ($(OBJS)) do @%append $(DLLLNK) file %i
+        
+.c.obj : 
+	wccp $(CFLAGS) $[*

@@ -1,0 +1,25 @@
+/*
+ *  env.h	Environment string operations
+ *
+ *  Copyright by WATCOM International Corp. 1988-1993.  All rights reserved.
+ */
+#ifndef _ENV_H_INCLUDED
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/*
+ *  POSIX 1003.1 Prototypes.
+ */
+ int	clearenv( void );
+ char  *getenv( const char *__name );
+ int	setenv( const char *__name, const char *__newvalue, int __overwrite );
+#if !defined(NO_EXT_KEYS) /* extensions enabled */
+ int	putenv( const char *__env_string );
+#endif
+
+#define _ENV_H_INCLUDED
+#ifdef __cplusplus
+};
+#endif
+#endif

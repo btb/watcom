@@ -1,0 +1,5 @@
+* Syntax:	bv
+*
+* Synopsis:	Break at the last viewed line.
+*
+if _dbg@dbg$view == 0:0 {error No source cue for line} {b _dbg@dbg$view}

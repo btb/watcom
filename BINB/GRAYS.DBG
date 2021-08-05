@@ -1,0 +1,9 @@
+* Syntax:	grays
+*
+* Synopsis:	Set the gray level colours for the various debugger windows.
+*
+paint	*	 title	  white, black
+paint	*	 gadget   white, black
+paint	*	 plain	  bright white, black
+paint	*	 active   bright white, white
+paint	*	 standout black, white

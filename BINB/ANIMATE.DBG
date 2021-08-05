@@ -1,0 +1,6 @@
+* Syntax:	animate
+*
+* Synopsis:	Do a slow-motion animation of code execution.
+*
+print "press CTRL/C to terminate animation"
+invoke slow 20

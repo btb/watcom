@@ -1,0 +1,144 @@
+# example linker initialization file.
+system begin dos
+    libpath %WATCOM%\lib286
+    libpath %WATCOM%\lib286\dos
+    format dos ^
+end
+system begin dos4g
+    option osname='Rational Systems'
+    libpath %WATCOM%\lib386
+    libpath %WATCOM%\lib386\dos
+    op stub=wstub.exe
+    format os2 le
+end
+system begin pharlap
+    libpath %WATCOM%\lib386
+    libpath %WATCOM%\lib386\dos
+    format phar ^
+end
+system begin ergo
+    option osname='Ergo'
+    libpath %WATCOM%\lib386
+    libpath %WATCOM%\lib386\dos
+    format phar ^
+end
+system begin win386
+    option osname='Windows 32-bit'
+    libpath %WATCOM%\lib386
+    libpath %WATCOM%\lib386\win
+    format phar rex
+end
+system begin os2
+    option osname='OS/2 16-bit'
+    libpath c:\os2
+    libpath %WATCOM%\lib286
+    libpath %WATCOM%\lib286\os2
+    format os2 ^
+end
+system begin windows
+    option osname='Windows 16-bit'
+    libpath %WATCOM%\lib286
+    libpath %WATCOM%\lib286\win
+    library windows
+    option stack=8k, heapsize=1k
+    format windows ^
+end
+system begin os2v2
+    option osname='OS/2 32-bit'
+    libpath %WATCOM%\lib386
+    libpath %WATCOM%\lib386\os2
+    libpath %TOOLKIT%\os2lib
+    format os2 lx ^
+end
+system begin os2v2_pm
+    option osname='OS/2 32-bit presentation manager'
+    libpath %WATCOM%\lib386
+    libpath %WATCOM%\lib386\os2
+    libpath %TOOLKIT%\os2lib
+    format os2 lx pm ^
+end
+system begin novell
+    format novell ^
+    libpath %WATCOM%\lib386
+    libpath %WATCOM%\lib386\netware
+    module clib
+    import @%WATCOM%\novi\clib.imp
+end
+system begin netware
+    format novell ^
+    libpath %WATCOM%\lib386
+    libpath %WATCOM%\lib386\netware
+    module clib
+    import @%WATCOM%\novi\clib.imp
+end
+system begin ads
+    option osname='AutoCAD Devlopment System'
+    libpath %WATCOM%\lib386
+    libpath %WATCOM%\lib386\dos
+    libfile adsstart
+    format phar ext ^
+end
+system begin eadi
+    option osname='emulation AutoCAD Device Interface'
+    libpath %WATCOM%\lib386
+    libpath %WATCOM%\lib386\dos
+    libfile adiestrt
+    format phar ext ^
+end
+system begin fadi
+    option osname='floating point AutoCAD Device Interface'
+    libpath %WATCOM%\lib386
+    libpath %WATCOM%\lib386\dos
+    libfile adifstrt
+    format phar ext ^
+end
+system begin com
+    option osname='DOS .COM'
+    libpath %WATCOM%\lib286
+    libpath %WATCOM%\lib286\dos
+    libfile cstart_t
+    format dos com
+end
+system begin codebuilder
+    option osname='Codebuilder'
+    libpath %WATCOM%\lib386
+    libpath %WATCOM%\lib386\dos
+    format phar rex
+end
+system begin qnx
+    option osname='QNX 16-bit'
+    libpath %WATCOM%\lib286
+    libpath %WATCOM%\lib286\qnx
+    format qnx
+end
+system begin qnx386
+    option osname='QNX 32-bit'
+    libpath %WATCOM%\lib386
+    libpath %WATCOM%\lib386\qnx
+#   format qnx flat
+    format qnx
+end
+system begin penpoint
+    option osname=Penpoint
+    libpath %PENPOINT_PATH%\sdk\lib
+    format os2 le ^
+end
+system begin nt
+    option osname='Windows NT character-mode'
+    libpath %WATCOM%\lib386
+    libpath %WATCOM%\lib386\nt
+    format windows nt ^
+    runtime console
+end
+system begin nt_win
+    option osname='Windows NT windowed'
+    libpath %WATCOM%\lib386
+    libpath %WATCOM%\lib386\nt
+    format windows nt ^
+end
+system begin nt_dll
+    option osname='Windows NT'
+    libpath %WATCOM%\lib386
+    libpath %WATCOM%\lib386\nt
+    format windows nt dll ^
+end

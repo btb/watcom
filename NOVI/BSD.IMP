@@ -1,0 +1,29 @@
+#
+# Undocumented socket hooks for OS-level clients.  Exported in case they are
+# needed in the future, per George Powers.
+#
+ bsd_accept,
+ bsd_bind,
+ bsd_close,
+ bsd_connect,
+ bsd_forget_thread,
+ bsd_getpeername,
+ bsd_getsockname,
+ bsd_getsockopt,
+ bsd_setsockopt,
+ bsd_ioctl,
+ bsd_listen,
+ bsd_recvmsg,
+ bsd_select,
+ bsd_sendmsg,
+ bsd_shutdown,
+ bsd_socket,
+ bsd_fd_set,
+ bsd_fd_clr,
+ bsd_fd_isset,
+ bsd_deregister,
+ bsd_register,
+ bsd_select_wakeup,
+ bsd_sleep,
+ bsd_wakeup,
+ bsd_wakeup_all

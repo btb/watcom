@@ -1,0 +1,30 @@
+* Syntax:	src
+*
+* Synopsis:	Creates a source window that uses most of the screen.
+*		A small assembly window is also created and placed under
+*		the dialogue window.  The register and stack windows are
+*		removed from the screen.
+*
+/_dbg@dbg$asm_top = _dbg@dbg$bot+1
+/_dbg@dbg$asm_bot = _dbg@dbg$bottom-1
+/_dbg@dbg$src_top = _dbg@dbg$top
+/_dbg@dbg$src_bot = _dbg@dbg$bot
+if ?_dbg@dbg$cv_clone {
+    display assembly /close
+} {
+    if _dbg@dbg$has_regs <= 1 { /_dbg@dbg$has_regs = 0 };
+    display assembly {Assembly: *} _dbg@dbg$asm_top, _dbg@dbg$asm_bot, _dbg@dbg$left, _dbg@dbg$right
+}
+if _dbg@dbg$has_regs%2 {
+    /_dbg@dbg$rgt = _dbg@dbg$right-8-5*_dbg@dbg$32
+} {
+    /_dbg@dbg$rgt = _dbg@dbg$right+1
+}
+display stack /close
+display source	 {Source:   *} _dbg@dbg$src_top, _dbg@dbg$src_bot, _dbg@dbg$left, _dbg@dbg$rgt-1
+display dialogue {Dialogue: *} _dbg@dbg$bot+1, _dbg@dbg$bottom-1, _dbg@dbg$left, _dbg@dbg$right
+if _dbg@dbg$has_regs%2 {
+    display register {CPU} _dbg@dbg$top, _dbg@dbg$top+19, _dbg@dbg$rgt, _dbg@dbg$right
+}
+set level source
+/_dbg@dbg$wind_split = 0
