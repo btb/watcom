@@ -73,7 +73,7 @@ system begin netware
     import @%WATCOM%\novi\clib.imp
 end
 system begin ads
-    option osname='AutoCAD Devlopment System'
+    option osname='AutoCAD Development System'
     libpath %WATCOM%\lib386
     libpath %WATCOM%\lib386\dos
     libfile adsstart

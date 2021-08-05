@@ -32,6 +32,7 @@
 #define set_handler(__Cls,__Typ1,__Typ2) \
 	name4(set_,__Typ1,__Cls,_handler)(__Typ2)
 
+// undocumented AT&T function (WATCOM stub returns first argument)
 extern int genericerror( int, char* );
 typedef int (*GPT)( int, char* );
 

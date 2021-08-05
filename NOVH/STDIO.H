@@ -137,6 +137,7 @@ int	 ungetc( int __c, FILE *__fp );
 int	 vfprintf( FILE *__fp, const char *__format, __va_list __arg );
 int	 vprintf( const char *__format, __va_list __arg );
 int	 vsprintf( char *__s, const char *__format, __va_list __arg );
+int	 fileno( FILE *__fp );
 
 #if !defined(NO_EXT_KEYS) /* extensions enabled */
  int	 fcloseall( void );

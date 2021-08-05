@@ -166,4 +166,5 @@ SMANIP_make( long, setiosflags );
 SMANIP_make( int,  setprecision );
 SMANIP_make( int,  setw );
 
+#define _IOMANIP_H_INCLUDED
 #endif
